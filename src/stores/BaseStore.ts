@@ -11,15 +11,15 @@ export default class BaseStore {
     this.rootStore = rootStore;
   }
 
-  async requestAction<T>(effect: () => Promise<any>, prop: (requestData: IRequestStatus<T>) => void): Promise<void> {
+  async requestAction<T>(setStatus: (requestData: IRequestStatus<T>) => void, effect: Promise<any>) {
     const status: IRequestStatus<any> = {
       ...initialRequestStatus(null),
       isRequesting: true,
     };
 
-    runInAction(() => prop(status));
+    runInAction(() => setStatus(status));
 
-    const response = await effect();
+    const response = await effect;
 
     if (response instanceof HttpErrorResponseModel) {
       status.error = response;
@@ -31,6 +31,6 @@ export default class BaseStore {
 
     status.isRequesting = false;
 
-    runInAction(() => prop(status));
+    runInAction(() => setStatus(status));
   }
 }
