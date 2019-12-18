@@ -11,7 +11,7 @@ export default class BaseStore {
     this.rootStore = rootStore;
   }
 
-  async requestAction<T>(effect: () => Promise<any>, prop: (requestData: IRequestStatus<T>) => void) {
+  async requestAction<T>(effect: () => Promise<any>, prop: (requestData: IRequestStatus<T>) => void): Promise<void> {
     const status: IRequestStatus<any> = {
       ...initialRequestStatus(null),
       isRequesting: true,
