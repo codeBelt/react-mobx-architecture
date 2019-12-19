@@ -15,7 +15,7 @@ configure({ enforceActions: 'always' }); // https://mobx.js.org/refguide/api.htm
 (async (window: Window): Promise<void> => {
   const initialState: RecursivePartial<RootStore> = {
     showsStore: {
-      currentShowId: '44',
+      currentShowId: '74',
     },
   };
   const rootStore = new RootStore(initialState);

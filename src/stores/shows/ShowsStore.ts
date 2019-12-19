@@ -10,29 +10,29 @@ import IEpisodeTable from './computed/IEpisodeTable';
 import IEpisodeTableRow from './computed/IEpisodeTableRow';
 import dayjs from 'dayjs';
 import BaseStore from '../BaseStore';
-import { initialRequestStatus, IRequestStatus } from '../../models/IRequestStatus';
+import { initialResponseStatus, IResponseStatus } from '../../models/IResponseStatus';
 
 export default class ShowsStore extends BaseStore {
-  @observable currentShowId: string = '74';
-  @observable show: IRequestStatus<ShowModel | null> = initialRequestStatus(null);
-  @observable episodes: IRequestStatus<EpisodeModel[]> = initialRequestStatus([]);
-  @observable actors: IRequestStatus<CastModel[]> = initialRequestStatus([]);
-  @observable errorExample: IRequestStatus<null> = initialRequestStatus(null);
+  @observable currentShowId: string = '';
+  @observable show: IResponseStatus<ShowModel | null> = initialResponseStatus(null);
+  @observable episodes: IResponseStatus<EpisodeModel[]> = initialResponseStatus([]);
+  @observable actors: IResponseStatus<CastModel[]> = initialResponseStatus([]);
+  @observable errorExample: IResponseStatus<null> = initialResponseStatus(null);
 
   @action
   async requestShow(): Promise<void> {
     const endpoint = environment.api.shows.replace(':showId', this.currentShowId);
 
-    await this.requestAction<ShowModel>((status) => {
+    await this.requestAction((status) => {
       this.show = { ...this.show, ...status };
-    }, EffectUtility.getToModel<ShowModel[]>(ShowModel, endpoint));
+    }, EffectUtility.getToModel<ShowModel>(ShowModel, endpoint));
   }
 
   @action
   async requestEpisodes(): Promise<void> {
     const endpoint = environment.api.episodes.replace(':showId', this.currentShowId);
 
-    await this.requestAction<EpisodeModel[]>((status) => {
+    await this.requestAction((status) => {
       this.episodes = { ...this.episodes, ...status };
     }, EffectUtility.getToModel<EpisodeModel[]>(EpisodeModel, endpoint));
   }
@@ -41,7 +41,7 @@ export default class ShowsStore extends BaseStore {
   async requestCast(): Promise<void> {
     const endpoint = environment.api.cast.replace(':showId', this.currentShowId);
 
-    await this.requestAction<CastModel[]>((status) => {
+    await this.requestAction((status) => {
       this.actors = { ...this.actors, ...status };
     }, EffectUtility.getToModel<CastModel[]>(CastModel, endpoint));
   }
@@ -53,7 +53,7 @@ export default class ShowsStore extends BaseStore {
   async requestError(): Promise<void> {
     const endpoint = environment.api.errorExample;
 
-    await this.requestAction<null>((status) => {
+    await this.requestAction<any>((status) => {
       this.errorExample = { ...this.errorExample, ...status };
     }, HttpUtility.get(endpoint));
   }

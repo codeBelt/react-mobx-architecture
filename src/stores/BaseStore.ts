@@ -1,7 +1,7 @@
 import { RootStore } from './rootStore';
 import { runInAction } from 'mobx';
 import HttpErrorResponseModel from '../models/HttpErrorResponseModel';
-import { IRequestStatus } from '../models/IRequestStatus';
+import { IResponseStatus } from '../models/IResponseStatus';
 import ToastStatusEnum from '../constants/ToastStatusEnum';
 
 export default class BaseStore {
@@ -15,28 +15,32 @@ export default class BaseStore {
     });
   }
 
-  async requestAction<T>(setStatus: (requestData: Partial<IRequestStatus<T>>) => void, effect: Promise<any>) {
-    // const status: Pick<IRequestStatus, 'isRequesting'> = {
-    let status: any = {
+  async requestAction<T>(
+    callback: (status: Partial<IResponseStatus<T>>) => void,
+    effect: Promise<T | HttpErrorResponseModel>
+  ): Promise<IResponseStatus<T>> {
+    let statusData: Partial<IResponseStatus<T>> = {
       isRequesting: true,
     };
 
-    runInAction(() => setStatus(status));
+    runInAction(() => callback(statusData));
 
     const response = await effect;
 
-    status = { ...status };
+    statusData = { ...statusData };
 
     if (response instanceof HttpErrorResponseModel) {
-      status.error = response;
+      statusData.error = response;
 
       this.rootStore.toastsStore.add(response.message, ToastStatusEnum.Error);
     } else {
-      status.data = response;
+      statusData.data = response;
     }
 
-    status.isRequesting = false;
+    statusData.isRequesting = false;
 
-    runInAction(() => setStatus(status));
+    runInAction(() => callback(statusData));
+
+    return statusData as IResponseStatus<T>;
   }
 }
