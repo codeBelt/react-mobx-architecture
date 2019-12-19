@@ -1,4 +1,4 @@
-import { RootStore } from './rootStore';
+import RootStore from './RootStore';
 import { runInAction } from 'mobx';
 import HttpErrorResponseModel from '../models/HttpErrorResponseModel';
 import { IResponseStatus } from '../models/IResponseStatus';

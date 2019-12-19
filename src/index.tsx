@@ -7,7 +7,7 @@ import App from './views/App';
 import environment from 'environment';
 import { Provider } from 'mobx-react';
 import { syncHistoryWithStore } from 'mobx-react-router';
-import { RootStore } from './stores/rootStore';
+import RootStore from './stores/RootStore';
 import { configure } from 'mobx';
 
 configure({ enforceActions: 'always' }); // https://mobx.js.org/refguide/api.html#enforceactions
