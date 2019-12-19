@@ -23,30 +23,27 @@ export default class ShowsStore extends BaseStore {
   async requestShow(): Promise<void> {
     const endpoint = environment.api.shows.replace(':showId', this.currentShowId);
 
-    await this.requestAction<ShowModel>(
-      (status: IRequestStatus<ShowModel | null>) => (this.show = status),
-      EffectUtility.getToModel<ShowModel[]>(ShowModel, endpoint)
-    );
+    await this.requestAction<ShowModel>((status) => {
+      this.show = { ...this.show, ...status };
+    }, EffectUtility.getToModel<ShowModel[]>(ShowModel, endpoint));
   }
 
   @action
   async requestEpisodes(): Promise<void> {
     const endpoint = environment.api.episodes.replace(':showId', this.currentShowId);
 
-    await this.requestAction<EpisodeModel[]>(
-      (status: IRequestStatus<EpisodeModel[]>) => (this.episodes = status),
-      EffectUtility.getToModel<EpisodeModel[]>(EpisodeModel, endpoint)
-    );
+    await this.requestAction<EpisodeModel[]>((status) => {
+      this.episodes = { ...this.episodes, ...status };
+    }, EffectUtility.getToModel<EpisodeModel[]>(EpisodeModel, endpoint));
   }
 
   @action
   async requestCast(): Promise<void> {
     const endpoint = environment.api.cast.replace(':showId', this.currentShowId);
 
-    await this.requestAction<CastModel[]>(
-      (status: IRequestStatus<CastModel[]>) => (this.actors = status),
-      EffectUtility.getToModel<CastModel[]>(CastModel, endpoint)
-    );
+    await this.requestAction<CastModel[]>((status) => {
+      this.actors = { ...this.actors, ...status };
+    }, EffectUtility.getToModel<CastModel[]>(CastModel, endpoint));
   }
 
   /**
@@ -56,7 +53,9 @@ export default class ShowsStore extends BaseStore {
   async requestError(): Promise<void> {
     const endpoint = environment.api.errorExample;
 
-    await this.requestAction<null>((status) => (this.errorExample = status), HttpUtility.get(endpoint));
+    await this.requestAction<null>((status) => {
+      this.errorExample = { ...this.errorExample, ...status };
+    }, HttpUtility.get(endpoint));
   }
 
   @computed

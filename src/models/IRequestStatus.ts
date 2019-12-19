@@ -1,15 +1,15 @@
 import HttpErrorResponseModel from './HttpErrorResponseModel';
 
-export interface IRequestStatus<T> {
+export interface IRequestStatus<T = undefined> {
   isRequesting: boolean;
-  data: T;
-  error: HttpErrorResponseModel | null;
+  data: T | undefined;
+  error: HttpErrorResponseModel | undefined;
   meta: any;
 }
 
 export const initialRequestStatus = <T>(defaultValue: T): IRequestStatus<T> => ({
   isRequesting: false,
-  error: null,
+  error: undefined,
   data: defaultValue,
   meta: null,
 });
