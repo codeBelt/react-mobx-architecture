@@ -7,10 +7,10 @@ import ToastStatusEnum from '../constants/ToastStatusEnum';
 export default class BaseStore {
   protected rootStore: RootStore;
 
-  constructor(rootStore: RootStore, initialState: any) {
+  constructor(rootStore: RootStore, initialState: {} = {}) {
     this.rootStore = rootStore;
 
-    Object.entries(initialState ?? {}).forEach(([key, value]) => {
+    Object.entries(initialState).forEach(([key, value]) => {
       runInAction(() => (this[key] = value));
     });
   }
