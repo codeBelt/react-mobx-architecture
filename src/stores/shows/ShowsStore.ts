@@ -3,8 +3,8 @@ import CastModel from './models/cast/CastModel';
 import ShowModel from './models/shows/ShowModel';
 import EpisodeModel from './models/episodes/EpisodeModel';
 import environment from 'environment';
-import EffectUtility from '../../utilities/EffectUtility';
-import HttpUtility from '../../utilities/HttpUtility';
+import { getToModel } from '../../utilities/EffectUtil';
+import HttpUtil from '../../utilities/HttpUtil';
 import groupBy from 'lodash.groupby';
 import IEpisodeTable from './computed/IEpisodeTable';
 import IEpisodeTableRow from './computed/IEpisodeTableRow';
@@ -25,7 +25,7 @@ export default class ShowsStore extends BaseStore {
 
     await this.requestAction((status) => {
       this.show = { ...this.show, ...status };
-    }, EffectUtility.getToModel<ShowModel>(ShowModel, endpoint));
+    }, getToModel<ShowModel>(ShowModel, endpoint));
   }
 
   @action
@@ -34,7 +34,7 @@ export default class ShowsStore extends BaseStore {
 
     await this.requestAction((status) => {
       this.episodes = { ...this.episodes, ...status };
-    }, EffectUtility.getToModel<EpisodeModel[]>(EpisodeModel, endpoint));
+    }, getToModel<EpisodeModel[]>(EpisodeModel, endpoint));
   }
 
   @action
@@ -43,7 +43,7 @@ export default class ShowsStore extends BaseStore {
 
     await this.requestAction((status) => {
       this.actors = { ...this.actors, ...status };
-    }, EffectUtility.getToModel<CastModel[]>(CastModel, endpoint));
+    }, getToModel<CastModel[]>(CastModel, endpoint));
   }
 
   /**
@@ -55,7 +55,7 @@ export default class ShowsStore extends BaseStore {
 
     await this.requestAction<any>((status) => {
       this.errorExample = { ...this.errorExample, ...status };
-    }, HttpUtility.get(endpoint));
+    }, HttpUtil.get(endpoint));
   }
 
   @computed

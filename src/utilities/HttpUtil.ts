@@ -11,14 +11,14 @@ export enum RequestMethod {
   Patch = 'PATCH',
 }
 
-export default class HttpUtility {
+export default class HttpUtil {
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   private constructor() {}
 
   public static async get(endpoint: string, params?: any, requestConfig?: AxiosRequestConfig): Promise<AxiosResponse | HttpErrorResponseModel> {
     const paramsConfig: AxiosRequestConfig | undefined = params ? { params } : undefined;
 
-    return HttpUtility._request(
+    return HttpUtil._request(
       {
         url: endpoint,
         method: RequestMethod.Get,
@@ -33,7 +33,7 @@ export default class HttpUtility {
   public static async post(endpoint: string, data?: any): Promise<AxiosResponse | HttpErrorResponseModel> {
     const config: AxiosRequestConfig | undefined = data ? { data } : undefined;
 
-    return HttpUtility._request(
+    return HttpUtil._request(
       {
         url: endpoint,
         method: RequestMethod.Post,
@@ -45,7 +45,7 @@ export default class HttpUtility {
   public static async put(endpoint: string, data?: any): Promise<AxiosResponse | HttpErrorResponseModel> {
     const config: AxiosRequestConfig | undefined = data ? { data } : undefined;
 
-    return HttpUtility._request(
+    return HttpUtil._request(
       {
         url: endpoint,
         method: RequestMethod.Put,
@@ -55,7 +55,7 @@ export default class HttpUtility {
   }
 
   public static async delete(endpoint: string): Promise<AxiosResponse | HttpErrorResponseModel> {
-    return HttpUtility._request({
+    return HttpUtil._request({
       url: endpoint,
       method: RequestMethod.Delete,
     });
@@ -76,12 +76,12 @@ export default class HttpUtility {
           ...config?.headers,
         },
       };
-      const [axiosResponse] = await Promise.all([axios(axiosRequestConfig), HttpUtility._delay()]);
+      const [axiosResponse] = await Promise.all([axios(axiosRequestConfig), HttpUtil._delay()]);
 
       const { status, data, request } = axiosResponse;
 
       if (data.success === false) {
-        return HttpUtility._fillInErrorWithDefaults(
+        return HttpUtil._fillInErrorWithDefaults(
           {
             status,
             message: data.errors.join(' - '),
@@ -102,7 +102,7 @@ export default class HttpUtility {
         const { status, statusText, data } = error.response;
         const errors: string[] = data.hasOwnProperty('errors') ? [statusText, ...data.errors] : [statusText];
 
-        return HttpUtility._fillInErrorWithDefaults(
+        return HttpUtil._fillInErrorWithDefaults(
           {
             status,
             message: errors.filter(Boolean).join(' - '),
@@ -116,7 +116,7 @@ export default class HttpUtility {
         // The request was made but no response was received `error.request` is an instance of XMLHttpRequest in the browser and an instance of http.ClientRequest in node.js
         const { status, statusText, responseURL } = error.request;
 
-        return HttpUtility._fillInErrorWithDefaults(
+        return HttpUtil._fillInErrorWithDefaults(
           {
             status,
             message: statusText,
@@ -129,7 +129,7 @@ export default class HttpUtility {
       }
 
       // Something happened in setting up the request that triggered an Error
-      return HttpUtility._fillInErrorWithDefaults(
+      return HttpUtil._fillInErrorWithDefaults(
         {
           status: 0,
           message: error.message,

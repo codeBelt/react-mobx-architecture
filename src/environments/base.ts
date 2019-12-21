@@ -7,22 +7,10 @@ export default function baseEnv(baseApi: string) {
     route: {
       baseRoute: '',
     },
-    apiCacheTime: {
-      duration: 7,
-      unit: 'CacheService.DAYS',
-    },
     api: {
-      shows: `https://api.tvmaze.com/shows/:showId`,
-      episodes: `https://api.tvmaze.com/shows/:showId/episodes`,
-      cast: `https://api.tvmaze.com/shows/:showId/cast`,
-
-      categories: `${baseApi}/api/`,
-      people: `${baseApi}/api/people/`,
-      planets: `${baseApi}/api/planets/`,
-      films: `${baseApi}/api/films/`,
-      species: `${baseApi}/api/species/`,
-      vehicles: `${baseApi}/api/vehicles/`,
-      starships: `${baseApi}/api/starships/`,
+      shows: `${baseApi}/shows/:showId`,
+      episodes: `${baseApi}/shows/:showId/episodes`,
+      cast: `${baseApi}/shows/:showId/cast`,
       errorExample: 'https://httpstat.us/520',
     },
     isProduction: true,
