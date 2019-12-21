@@ -32,7 +32,7 @@ generateTemplateFiles([
         entry: {
             folderPath: './tools/templates/react/connected-component/',
         },
-        stringReplacers: ['__name__'],
+        stringReplacers: ['__name__','__store__'],
         output: {
             path: './src/views/__name__(kebabCase)',
             pathAndFileNameDefaultCase: '(pascalCase)',

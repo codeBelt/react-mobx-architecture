@@ -4,18 +4,13 @@ import CastModel from '../../../../stores/shows/models/cast/CastModel';
 import ActorCard from './components/actor-card/ActorCard';
 import { inject, observer } from 'mobx-react';
 import ShowsStore from '../../../../stores/shows/ShowsStore';
-import RootStore from '../../../../stores/RootStore';
 
 interface IProps {
   showsStore?: ShowsStore;
 }
 interface IState {}
 
-@inject(
-  (store: RootStore): Partial<IProps> => ({
-    showsStore: store.showsStore,
-  })
-)
+@inject('showsStore')
 @observer
 export default class Actors extends React.Component<IProps, IState> {
   public componentDidMount(): void {

@@ -5,7 +5,7 @@ import HttpUtil from './HttpUtil';
 import { SingleItemOrArray } from '../definitions/SingleItemOrArray';
 import { FlattenIfArray } from '../definitions/FlattenIfArray';
 
-const _restModelCreator = <T>(
+const _createModels = <T>(
   Model: Constructor<FlattenIfArray<T>>,
   response: AxiosResponse | HttpErrorResponseModel
 ): SingleItemOrArray<T> | HttpErrorResponseModel => {
@@ -23,7 +23,7 @@ export const getToModel = async <T>(
 ): Promise<SingleItemOrArray<T> | HttpErrorResponseModel> => {
   const response: AxiosResponse | HttpErrorResponseModel = await HttpUtil.get(endpoint, params);
 
-  return _restModelCreator<T>(Model, response);
+  return _createModels<T>(Model, response);
 };
 
 export const postToModel = async <T>(
@@ -33,5 +33,5 @@ export const postToModel = async <T>(
 ): Promise<SingleItemOrArray<T> | HttpErrorResponseModel> => {
   const response: AxiosResponse | HttpErrorResponseModel = await HttpUtil.post(endpoint, data);
 
-  return _restModelCreator<T>(Model, response);
+  return _createModels<T>(Model, response);
 };
