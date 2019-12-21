@@ -30,7 +30,7 @@ export default class HomePage extends React.Component<IProps, IState> {
   @observable
   searchPod = new SearchPod(null, { endpoint: 'http://api.tvmaze.com/singlesearch/shows' });
 
-  public render(): JSX.Element {
+  render(): JSX.Element {
     const isRequesting = this.props.showsStore!.isRequestingShowAndCast;
 
     return (

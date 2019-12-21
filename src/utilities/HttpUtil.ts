@@ -15,7 +15,7 @@ export default class HttpUtil {
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   private constructor() {}
 
-  public static async get(endpoint: string, params?: any, requestConfig?: AxiosRequestConfig): Promise<AxiosResponse | HttpErrorResponseModel> {
+  static async get(endpoint: string, params?: any, requestConfig?: AxiosRequestConfig): Promise<AxiosResponse | HttpErrorResponseModel> {
     const paramsConfig: AxiosRequestConfig | undefined = params ? { params } : undefined;
 
     return HttpUtil._request(
@@ -30,7 +30,7 @@ export default class HttpUtil {
     );
   }
 
-  public static async post(endpoint: string, data?: any): Promise<AxiosResponse | HttpErrorResponseModel> {
+  static async post(endpoint: string, data?: any): Promise<AxiosResponse | HttpErrorResponseModel> {
     const config: AxiosRequestConfig | undefined = data ? { data } : undefined;
 
     return HttpUtil._request(
@@ -42,7 +42,7 @@ export default class HttpUtil {
     );
   }
 
-  public static async put(endpoint: string, data?: any): Promise<AxiosResponse | HttpErrorResponseModel> {
+  static async put(endpoint: string, data?: any): Promise<AxiosResponse | HttpErrorResponseModel> {
     const config: AxiosRequestConfig | undefined = data ? { data } : undefined;
 
     return HttpUtil._request(
@@ -54,7 +54,7 @@ export default class HttpUtil {
     );
   }
 
-  public static async delete(endpoint: string): Promise<AxiosResponse | HttpErrorResponseModel> {
+  static async delete(endpoint: string): Promise<AxiosResponse | HttpErrorResponseModel> {
     return HttpUtil._request({
       url: endpoint,
       method: RequestMethod.Delete,

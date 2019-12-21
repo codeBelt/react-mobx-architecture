@@ -16,13 +16,13 @@ interface IState {}
 @inject('toastsStore')
 @observer
 export default class ToastCard extends React.PureComponent<IProps, IState> {
-  public buttonColorMap: Record<ToastStatusEnum, SemanticCOLORS> = {
+  buttonColorMap: Record<ToastStatusEnum, SemanticCOLORS> = {
     [ToastStatusEnum.Error]: 'red',
     [ToastStatusEnum.Warning]: 'orange',
     [ToastStatusEnum.Success]: 'green',
   };
 
-  public render(): JSX.Element {
+  render(): JSX.Element {
     const { item } = this.props;
     const buttonColor: SemanticCOLORS = this.buttonColorMap[item.type];
 
@@ -41,7 +41,7 @@ export default class ToastCard extends React.PureComponent<IProps, IState> {
     );
   }
 
-  private _onClickRemoveNotification = (event: React.MouseEvent<HTMLButtonElement>, data: ButtonProps): void => {
+  _onClickRemoveNotification = (event: React.MouseEvent<HTMLButtonElement>, data: ButtonProps): void => {
     this.props.toastsStore!.remove(this.props.item.id);
   };
 }

@@ -14,11 +14,11 @@ interface IState {}
 @inject('showsStore')
 @observer
 export default class AboutPage extends React.Component<IProps, IState> {
-  public componentDidMount(): void {
+  componentDidMount(): void {
     this.props.showsStore!.requestError();
   }
 
-  public render(): JSX.Element {
+  render(): JSX.Element {
     const { isRequesting, error } = this.props.showsStore!.errorExample!;
 
     return (

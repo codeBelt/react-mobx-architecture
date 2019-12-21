@@ -11,11 +11,11 @@ interface IState {}
 @inject('showsStore')
 @observer
 export default class MainOverview extends React.Component<IProps, IState> {
-  public componentDidMount(): void {
+  componentDidMount(): void {
     this.props.showsStore!.requestShow();
   }
 
-  public render(): JSX.Element | null {
+  render(): JSX.Element | null {
     const { data, error } = this.props.showsStore!.show;
 
     if (!data || error) {

@@ -13,11 +13,11 @@ interface IState {}
 @inject('showsStore')
 @observer
 export default class Actors extends React.Component<IProps, IState> {
-  public componentDidMount(): void {
+  componentDidMount(): void {
     this.props.showsStore!.requestCast();
   }
 
-  public render(): JSX.Element | null {
+  render(): JSX.Element | null {
     const { data, error } = this.props.showsStore!.actors;
 
     if (!data || error) {

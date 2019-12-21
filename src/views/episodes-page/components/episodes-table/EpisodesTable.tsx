@@ -10,7 +10,7 @@ interface IProps {
 interface IState {}
 
 export default class EpisodesTable extends React.PureComponent<IProps, IState> {
-  public render(): JSX.Element {
+  render(): JSX.Element {
     const { tableData } = this.props;
 
     return (
