@@ -24,6 +24,9 @@ export default class MainNav extends React.PureComponent<IProps, IState> {
   };
 
   render(): JSX.Element {
+    const { pathname } = this.props.routingStore!.location;
+    const hideSearchInput = pathname !== RouteEnum.Search;
+
     return (
       <Segment inverted={true} className={styles.wrapper}>
         <Menu inverted={true} pointing={true} secondary={true}>
@@ -31,27 +34,29 @@ export default class MainNav extends React.PureComponent<IProps, IState> {
           <Menu.Item as={MenuNavLink} to={RouteEnum.Episodes} name="Episodes" />
           <Menu.Item as={MenuNavLink} to={RouteEnum.About} name="About" />
         </Menu>
-        <Form onSubmit={this._onClickSearch}>
-          <Form.Input
-            name="searchTerm"
-            icon={{ name: 'search', icon: 'search' }}
-            placeholder="Search..."
-            value={this.state.searchTerm}
-            onChange={this._onChangeSearch}
-          />
-        </Form>
+        {hideSearchInput && (
+          <Form onSubmit={this._onClickSearch}>
+            <Form.Input
+              name="searchTerm"
+              icon={{ name: 'search', icon: 'search' }}
+              placeholder="Search for Shows..."
+              value={this.state.searchTerm}
+              onChange={this._onChangeInput}
+            />
+          </Form>
+        )}
       </Segment>
     );
   }
 
-  _onChangeSearch = (event: React.ChangeEvent<HTMLInputElement>, data: InputOnChangeData) => {
+  _onChangeInput = (event: React.ChangeEvent<HTMLInputElement>, data: InputOnChangeData) => {
     this.setState({ searchTerm: data.value });
   };
 
   _onClickSearch = (event: React.FormEvent<HTMLFormElement>, data: FormProps) => {
     const { searchTerm } = this.state;
 
-    this.props.routingStore!.push(`${RouteEnum.About}?search=${searchTerm}`);
+    this.props.routingStore!.push(`${RouteEnum.Search}?q=${searchTerm}`);
 
     this.setState({ searchTerm: '' });
   };

@@ -5,10 +5,10 @@ import { IResponseStatus } from '../models/IResponseStatus';
 import ToastStatusEnum from '../constants/ToastStatusEnum';
 
 export default class BaseStore {
-  protected rootStore: RootStore | null;
+  protected rootStore: RootStore;
 
-  constructor(rootStore?: RootStore | null, initialState: {} = {}) {
-    this.rootStore = rootStore ?? null;
+  constructor(rootStore: RootStore, initialState: {} = {}) {
+    this.rootStore = rootStore;
 
     Object.entries(initialState).forEach(([key, value]) => {
       runInAction(() => (this[key] = value));
@@ -32,9 +32,7 @@ export default class BaseStore {
     if (response instanceof HttpErrorResponseModel) {
       statusData.error = response;
 
-      if (this.rootStore) {
-        this.rootStore.toastsStore.add(response.message, ToastStatusEnum.Error);
-      }
+      this.rootStore.toastsStore.add(response.message, ToastStatusEnum.Error);
     } else {
       statusData.data = response;
     }

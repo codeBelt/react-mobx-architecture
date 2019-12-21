@@ -8,9 +8,10 @@ export default function baseEnv(baseApi: string) {
       baseRoute: '',
     },
     api: {
-      shows: `${baseApi}/shows/:showId`,
-      episodes: `${baseApi}/shows/:showId/episodes`,
       cast: `${baseApi}/shows/:showId/cast`,
+      episodes: `${baseApi}/shows/:showId/episodes`,
+      shows: `${baseApi}/shows/:showId`,
+      showsSearch: `${baseApi}/singlesearch/shows`,
       errorExample: 'https://httpstat.us/520',
     },
     isProduction: true,
