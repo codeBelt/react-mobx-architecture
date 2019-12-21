@@ -1,5 +1,3 @@
-declare module 'lodash.groupby';
-
 declare module 'environment' {
   const value: {
     route: {

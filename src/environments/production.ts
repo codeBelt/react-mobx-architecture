@@ -5,7 +5,7 @@ import environment from './base';
  * You shouldn't have override anything.
  */
 
-const baseApi = 'https://api.tvmaze.com';
+const baseApi = 'https://swapi.co';
 const env = environment(baseApi);
 
 export default {
