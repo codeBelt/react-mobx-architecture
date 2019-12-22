@@ -28,7 +28,7 @@ export default class CharacterModel extends BaseModel {
    */
   // public noneApiProperties: unknown = null;
 
-  constructor(data: Partial<CharacterModel>) {
+  constructor(data: RecursivePartial<CharacterModel>) {
     super();
 
     this.update(data);

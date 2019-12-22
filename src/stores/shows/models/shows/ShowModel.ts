@@ -73,7 +73,7 @@ export default class ShowModel extends BaseModel {
    */
   // public noneApiProperties: unknown = null;
 
-  constructor(data: Partial<ShowModel>) {
+  constructor(data: RecursivePartial<ShowModel>) {
     super();
 
     this.update(data);

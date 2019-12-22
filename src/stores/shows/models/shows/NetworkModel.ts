@@ -23,7 +23,7 @@ export default class NetworkModel extends BaseModel {
    */
   // public noneApiProperties: unknown = null;
 
-  constructor(data: Partial<NetworkModel>) {
+  constructor(data: RecursivePartial<NetworkModel>) {
     super();
 
     this.update(data);

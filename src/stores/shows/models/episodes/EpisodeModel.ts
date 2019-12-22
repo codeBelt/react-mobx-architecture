@@ -39,7 +39,7 @@ export default class EpisodeModel extends BaseModel {
    */
   // public noneApiProperties: unknown = null;
 
-  constructor(data: Partial<EpisodeModel>) {
+  constructor(data: RecursivePartial<EpisodeModel>) {
     super();
 
     this.update(data);

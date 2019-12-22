@@ -8,14 +8,15 @@ import RootStore from '../../stores/RootStore';
 import SearchPod from './storage-pods/SearchPod';
 import { observable } from 'mobx';
 import { RouterStore } from 'mobx-react-router';
-import { Form } from 'semantic-ui-react';
+import { Form, Item, Button, Icon, Label } from 'semantic-ui-react';
 import { InputOnChangeData } from 'semantic-ui-react/dist/commonjs/elements/Input/Input';
 import { FormProps } from 'semantic-ui-react/dist/commonjs/collections/Form/Form';
 import RouteEnum from '../../constants/RouteEnum';
-import queryString, { ParsedQuery } from 'query-string';
+import queryString from 'query-string';
+import SearchResults from './components/search-results/SearchResults';
 
 interface IRouteParams {
-  q: string;
+  term: 'term';
 }
 interface IProps extends RouteComponentProps<IRouteParams> {
   routingStore?: RouterStore;
@@ -32,24 +33,32 @@ export default class SearchPage extends React.Component<IProps, IState> {
     const searchTerm = this._getSearchValue();
 
     this.searchPod.setInputValue(searchTerm);
+
+    if (searchTerm) {
+      this.searchPod.search(searchTerm);
+    }
   }
 
   componentDidUpdate(prevProps: Readonly<IProps>, prevState: Readonly<IState>, snapshot?: any): void {
     const searchTerm = this._getSearchValue();
 
-    // this.searchPod.setInputValue(searchTerm);
-    console.log(`prevProps`);
+    if (searchTerm !== this.searchPod.currentSearchTerm) {
+      this.searchPod.search(searchTerm);
+    }
   }
 
   render(): JSX.Element {
+    const { isRequesting, data } = this.searchPod.searchResults;
     const { inputValue } = this.searchPod;
+
+    console.log(`data`, data);
 
     return (
       <div className={styles.wrapper}>
         <Form onSubmit={this._onClickSearch}>
           <Form.Input
             name="searchTerm"
-            loading={true}
+            loading={isRequesting}
             icon="search"
             iconPosition="left"
             placeholder="Search..."
@@ -57,6 +66,7 @@ export default class SearchPage extends React.Component<IProps, IState> {
             onChange={this._onChangeInput}
           />
         </Form>
+        <SearchResults list={data} />
       </div>
     );
   }
@@ -68,13 +78,13 @@ export default class SearchPage extends React.Component<IProps, IState> {
   _onClickSearch = (event: React.FormEvent<HTMLFormElement>, data: FormProps) => {
     const { inputValue } = this.searchPod;
 
-    this.props.routingStore!.push(`${RouteEnum.Search}?q=${inputValue}`);
+    this.props.routingStore!.push(`${RouteEnum.Search}?term=${inputValue}`);
   };
 
   _getSearchValue() {
     const { location } = this.props.routingStore!;
     const params = queryString.parse(location.search);
-    const value = (params?.q as string) ?? '';
+    const value = (params?.term as string) ?? '';
 
     return value;
   }

@@ -56,7 +56,7 @@ export default class MainNav extends React.PureComponent<IProps, IState> {
   _onClickSearch = (event: React.FormEvent<HTMLFormElement>, data: FormProps) => {
     const { searchTerm } = this.state;
 
-    this.props.routingStore!.push(`${RouteEnum.Search}?q=${searchTerm}`);
+    this.props.routingStore!.push(`${RouteEnum.Search}?term=${searchTerm}`);
 
     this.setState({ searchTerm: '' });
   };

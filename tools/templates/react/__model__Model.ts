@@ -14,13 +14,13 @@ export default class __model__Model extends BaseModel {
    */
   public noneApiProperties: unknown = null;
 
-  constructor(data: Partial<__model__Model>) {
+  constructor(data: RecursivePartial<__model__Model>) {
     super();
 
     this.update(data);
   }
 
-  public update(data: Partial<__model__Model>): void {
+  public update(data: RecursivePartial<__model__Model>): void {
     super.update(data);
   }
 

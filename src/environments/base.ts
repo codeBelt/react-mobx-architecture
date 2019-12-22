@@ -11,7 +11,7 @@ export default function baseEnv(baseApi: string) {
       cast: `${baseApi}/shows/:showId/cast`,
       episodes: `${baseApi}/shows/:showId/episodes`,
       shows: `${baseApi}/shows/:showId`,
-      showsSearch: `${baseApi}/singlesearch/shows`,
+      showsSearch: `${baseApi}/search/shows?q=:searchTerm`,
       errorExample: 'https://httpstat.us/520',
     },
     isProduction: true,
