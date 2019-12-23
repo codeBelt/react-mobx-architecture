@@ -16,7 +16,7 @@ export default class ImageModel extends BaseModel {
    */
   // public noneApiProperties: unknown = null;
 
-  constructor(data: Partial<ImageModel>) {
+  constructor(data: RecursivePartial<ImageModel>) {
     super();
 
     this.update(data);

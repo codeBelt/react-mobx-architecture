@@ -8,7 +8,7 @@ interface IProps {
 interface IState {}
 
 export default class EpisodesTableRow extends React.PureComponent<IProps, IState> {
-  public render(): JSX.Element {
+  render(): JSX.Element {
     const { rowData } = this.props;
 
     return (

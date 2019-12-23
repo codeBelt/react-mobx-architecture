@@ -1,5 +1,3 @@
-declare module 'lodash.groupby';
-
 declare module 'environment' {
   const value: {
     route: {
@@ -7,6 +5,7 @@ declare module 'environment' {
     };
     api: {
       shows: string;
+      showsSearch: string;
       episodes: string;
       cast: string;
       errorExample: string;

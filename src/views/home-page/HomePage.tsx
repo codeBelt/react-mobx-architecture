@@ -18,7 +18,7 @@ interface IState {}
 @inject('showsStore')
 @observer
 export default class HomePage extends React.Component<IProps, IState> {
-  public render(): JSX.Element {
+  render(): JSX.Element {
     const isRequesting = this.props.showsStore!.isRequestingShowAndCast;
 
     return (

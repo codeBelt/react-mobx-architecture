@@ -14,7 +14,7 @@ interface IState {}
 @inject('toastsStore')
 @observer
 export default class Toasts extends React.PureComponent<IProps, IState> {
-  public render(): JSX.Element | null {
+  render(): JSX.Element | null {
     const { items } = this.props.toastsStore!;
 
     if (items.length === 0) {

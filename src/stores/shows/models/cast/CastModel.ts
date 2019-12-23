@@ -22,7 +22,7 @@ export default class CastModel extends BaseModel {
    */
   // public noneApiProperties: unknown = null;
 
-  constructor(data: Partial<CastModel>) {
+  constructor(data: RecursivePartial<CastModel>) {
     super();
 
     this.update(data);

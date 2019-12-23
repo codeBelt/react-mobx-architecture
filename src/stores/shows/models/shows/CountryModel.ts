@@ -18,7 +18,7 @@ export default class CountryModel extends BaseModel {
    */
   // public noneApiProperties: unknown = null;
 
-  constructor(data: Partial<CountryModel>) {
+  constructor(data: RecursivePartial<CountryModel>) {
     super();
 
     this.update(data);

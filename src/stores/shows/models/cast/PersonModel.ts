@@ -37,7 +37,7 @@ export default class PersonModel extends BaseModel {
    */
   // public noneApiProperties: unknown = null;
 
-  constructor(data: Partial<PersonModel>) {
+  constructor(data: RecursivePartial<PersonModel>) {
     super();
 
     this.update(data);

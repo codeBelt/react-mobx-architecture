@@ -3,8 +3,8 @@ import CastModel from './models/cast/CastModel';
 import ShowModel from './models/shows/ShowModel';
 import EpisodeModel from './models/episodes/EpisodeModel';
 import environment from 'environment';
-import EffectUtility from '../../utilities/EffectUtility';
-import HttpUtility from '../../utilities/HttpUtility';
+import { getToModel } from '../../utilities/effectUtil';
+import HttpUtil from '../../utilities/HttpUtil';
 import groupBy from 'lodash.groupby';
 import IEpisodeTable from './computed/IEpisodeTable';
 import IEpisodeTableRow from './computed/IEpisodeTableRow';
@@ -20,42 +20,47 @@ export default class ShowsStore extends BaseStore {
   @observable errorExample: IResponseStatus<null> = initialResponseStatus(null);
 
   @action
-  async requestShow(): Promise<void> {
+  setCurrentShowId(showId: string) {
+    this.currentShowId = showId;
+  }
+
+  @action
+  async requestShow() {
     const endpoint = environment.api.shows.replace(':showId', this.currentShowId);
 
     await this.requestAction((status) => {
       this.show = { ...this.show, ...status };
-    }, EffectUtility.getToModel<ShowModel>(ShowModel, endpoint));
+    }, getToModel<ShowModel>(ShowModel, endpoint));
   }
 
   @action
-  async requestEpisodes(): Promise<void> {
+  async requestEpisodes() {
     const endpoint = environment.api.episodes.replace(':showId', this.currentShowId);
 
     await this.requestAction((status) => {
       this.episodes = { ...this.episodes, ...status };
-    }, EffectUtility.getToModel<EpisodeModel[]>(EpisodeModel, endpoint));
+    }, getToModel<EpisodeModel[]>(EpisodeModel, endpoint));
   }
 
   @action
-  async requestCast(): Promise<void> {
+  async requestCast() {
     const endpoint = environment.api.cast.replace(':showId', this.currentShowId);
 
     await this.requestAction((status) => {
       this.actors = { ...this.actors, ...status };
-    }, EffectUtility.getToModel<CastModel[]>(CastModel, endpoint));
+    }, getToModel<CastModel[]>(CastModel, endpoint));
   }
 
   /**
    * This is only to trigger an error api response so we can use it for an example in the AboutPage
    */
   @action
-  async requestError(): Promise<void> {
+  async requestError() {
     const endpoint = environment.api.errorExample;
 
     await this.requestAction<any>((status) => {
       this.errorExample = { ...this.errorExample, ...status };
-    }, HttpUtility.get(endpoint));
+    }, HttpUtil.get(endpoint));
   }
 
   @computed
@@ -86,7 +91,7 @@ export default class ShowsStore extends BaseStore {
         episode: model.number,
         name: model.name,
         date: dayjs(model.airdate).format('MMM D, YYYY'),
-        image: model.image.medium,
+        image: model.image?.medium ?? '',
       })
     );
   }

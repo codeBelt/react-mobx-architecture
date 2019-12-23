@@ -11,12 +11,12 @@ interface IProps {
 interface IState {}
 
 export default class LoadingIndicator extends React.PureComponent<IProps, IState> {
-  public static defaultProps: IProps = {
+  static defaultProps: IProps = {
     isActive: false,
     className: undefined,
   };
 
-  public render(): JSX.Element {
+  render(): JSX.Element {
     const { children, isActive, className } = this.props;
     const cssClasses: string = classNames(className, {
       [styles.wrapper]: isActive,

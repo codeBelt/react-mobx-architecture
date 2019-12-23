@@ -13,11 +13,11 @@ interface IState {}
 @inject('showsStore')
 @observer
 export default class EpisodesPage extends React.Component<IProps, IState> {
-  public componentDidMount(): void {
+  componentDidMount(): void {
     this.props.showsStore!.requestEpisodes();
   }
 
-  public render(): JSX.Element {
+  render(): JSX.Element {
     const { isRequesting } = this.props.showsStore!.episodes;
     const episodeTables = this.props.showsStore!.selectEpisodes;
 

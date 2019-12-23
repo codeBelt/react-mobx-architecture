@@ -31,7 +31,7 @@ export default class EpisodeModel extends BaseModel {
   public readonly number: number = 0;
   public readonly name: string = '';
   public readonly airdate: string = '';
-  public readonly image: ImageModel = ImageModel as any;
+  public readonly image: ImageModel | null = ImageModel as any;
   public readonly summary: string = '';
 
   /*
@@ -39,7 +39,7 @@ export default class EpisodeModel extends BaseModel {
    */
   // public noneApiProperties: unknown = null;
 
-  constructor(data: Partial<EpisodeModel>) {
+  constructor(data: RecursivePartial<EpisodeModel>) {
     super();
 
     this.update(data);
