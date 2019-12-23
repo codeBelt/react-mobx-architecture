@@ -8,7 +8,7 @@ import RootStore from '../../stores/RootStore';
 import SearchPod from './storage-pods/SearchPod';
 import { observable } from 'mobx';
 import { RouterStore } from 'mobx-react-router';
-import { Form, Item, Button, Icon, Label } from 'semantic-ui-react';
+import { Form, Item } from 'semantic-ui-react';
 import { InputOnChangeData } from 'semantic-ui-react/dist/commonjs/elements/Input/Input';
 import { FormProps } from 'semantic-ui-react/dist/commonjs/collections/Form/Form';
 import RouteEnum from '../../constants/RouteEnum';
@@ -51,8 +51,6 @@ export default class SearchPage extends React.Component<IProps, IState> {
     const { isRequesting, data } = this.searchPod.searchResults;
     const { inputValue } = this.searchPod;
 
-    console.log(`data`, data);
-
     return (
       <div className={styles.wrapper}>
         <Form onSubmit={this._onClickSearch}>
@@ -66,7 +64,11 @@ export default class SearchPage extends React.Component<IProps, IState> {
             onChange={this._onChangeInput}
           />
         </Form>
-        <SearchResults list={data} />
+        <Item.Group divided>
+          {data.map((model) => (
+            <SearchResults key={model.id} item={model} />
+          ))}
+        </Item.Group>
       </div>
     );
   }

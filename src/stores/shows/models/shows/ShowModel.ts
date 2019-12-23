@@ -63,6 +63,7 @@ import ImageModel from '../ImageModel';
 export default class ShowModel extends BaseModel {
   public readonly id: number = 0;
   public readonly name: string = '';
+  public readonly language: string = '';
   public readonly summary: string = '';
   public readonly genres: string[] = [];
   public readonly network: NetworkModel = NetworkModel as any;

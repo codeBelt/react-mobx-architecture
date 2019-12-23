@@ -20,6 +20,11 @@ export default class ShowsStore extends BaseStore {
   @observable errorExample: IResponseStatus<null> = initialResponseStatus(null);
 
   @action
+  setCurrentShowId(showId: string) {
+    this.currentShowId = showId;
+  }
+
+  @action
   async requestShow() {
     const endpoint = environment.api.shows.replace(':showId', this.currentShowId);
 
@@ -86,7 +91,7 @@ export default class ShowsStore extends BaseStore {
         episode: model.number,
         name: model.name,
         date: dayjs(model.airdate).format('MMM D, YYYY'),
-        image: model.image.medium,
+        image: model.image?.medium ?? '',
       })
     );
   }

@@ -31,7 +31,7 @@ export default class EpisodeModel extends BaseModel {
   public readonly number: number = 0;
   public readonly name: string = '';
   public readonly airdate: string = '';
-  public readonly image: ImageModel = ImageModel as any;
+  public readonly image: ImageModel | null = ImageModel as any;
   public readonly summary: string = '';
 
   /*
