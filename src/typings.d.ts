@@ -1,19 +1,6 @@
 declare module 'environment' {
-  const value: {
-    route: {
-      baseRoute: string;
-    };
-    api: {
-      shows: string;
-      showsSearch: string;
-      episodes: string;
-      cast: string;
-      errorExample: string;
-    };
-    isDevelopment: boolean;
-    isProduction: boolean;
-    isTesting?: boolean;
-  };
+  import baseEnv from './environments/base';
+  const value: ReturnType<typeof baseEnv>;
 
   export default value;
 }

@@ -19,3 +19,5 @@ export default function baseEnv(baseApi: string) {
     isTesting: false,
   };
 }
+
+export type Environments = ReturnType<typeof baseEnv>;
