@@ -15,7 +15,7 @@ export default class HttpUtil {
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   private constructor() {}
 
-  static async get(endpoint: string, params?: any, requestConfig?: AxiosRequestConfig): Promise<AxiosResponse | HttpErrorResponseModel> {
+  static async get<T>(endpoint: string, params?: any, requestConfig?: AxiosRequestConfig): Promise<AxiosResponse<T> | HttpErrorResponseModel> {
     const paramsConfig: AxiosRequestConfig | undefined = params ? { params } : undefined;
 
     return HttpUtil._request(
@@ -30,7 +30,7 @@ export default class HttpUtil {
     );
   }
 
-  static async post(endpoint: string, data?: any): Promise<AxiosResponse | HttpErrorResponseModel> {
+  static async post<T>(endpoint: string, data?: any): Promise<AxiosResponse<T> | HttpErrorResponseModel> {
     const config: AxiosRequestConfig | undefined = data ? { data } : undefined;
 
     return HttpUtil._request(
@@ -42,7 +42,7 @@ export default class HttpUtil {
     );
   }
 
-  static async put(endpoint: string, data?: any): Promise<AxiosResponse | HttpErrorResponseModel> {
+  static async put<T>(endpoint: string, data?: any): Promise<AxiosResponse<T> | HttpErrorResponseModel> {
     const config: AxiosRequestConfig | undefined = data ? { data } : undefined;
 
     return HttpUtil._request(
@@ -54,14 +54,14 @@ export default class HttpUtil {
     );
   }
 
-  static async delete(endpoint: string): Promise<AxiosResponse | HttpErrorResponseModel> {
+  static async delete<T>(endpoint: string): Promise<AxiosResponse<T> | HttpErrorResponseModel> {
     return HttpUtil._request({
       url: endpoint,
       method: RequestMethod.Delete,
     });
   }
 
-  private static async _request(restRequest: Partial<Request>, config?: AxiosRequestConfig): Promise<AxiosResponse | HttpErrorResponseModel> {
+  private static async _request<T>(restRequest: Partial<Request>, config?: AxiosRequestConfig): Promise<AxiosResponse<T> | HttpErrorResponseModel> {
     if (!Boolean(restRequest.url)) {
       console.error(`Received ${restRequest.url} which is invalid for a endpoint url`);
     }
