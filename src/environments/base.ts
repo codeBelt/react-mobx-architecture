@@ -21,4 +21,4 @@ export default function baseEnv(baseApi: string) {
   };
 }
 
-export type Environments = ReturnType<typeof baseEnv>;
+export type Environment = ReturnType<typeof baseEnv>;
