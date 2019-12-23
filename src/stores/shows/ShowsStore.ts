@@ -61,11 +61,9 @@ export default class ShowsStore extends BaseStore {
   async requestError() {
     const endpoint = environment.api.errorExample;
 
-    const results = await this.requestAction((status) => {
+    await this.requestAction((status) => {
       this.errorExample = { ...this.errorExample, ...status, data: status.data?.data ?? null };
     }, HttpUtil.get<null>(endpoint));
-
-    console.log(`results`, results);
   }
 
   @computed
