@@ -22,6 +22,9 @@ export default class ShowsStore extends BaseStore {
   @action
   setCurrentShowId(showId: string) {
     this.currentShowId = showId;
+    this.show = initialResponseStatus(null);
+    this.episodes = initialResponseStatus([]);
+    this.actors = initialResponseStatus([]);
   }
 
   @action
@@ -58,9 +61,9 @@ export default class ShowsStore extends BaseStore {
   async requestError() {
     const endpoint = environment.api.errorExample;
 
-    await this.requestAction<any>((status) => {
-      this.errorExample = { ...this.errorExample, ...status };
-    }, HttpUtil.get(endpoint));
+    await this.requestAction((status) => {
+      this.errorExample = { ...this.errorExample, ...status, data: status?.data || null };
+    }, HttpUtil.get<null>(endpoint));
   }
 
   @computed
