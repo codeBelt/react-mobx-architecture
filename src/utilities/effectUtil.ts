@@ -1,37 +1,17 @@
 import { Constructor } from '../definitions/Constructor';
-import HttpErrorResponseModel from '../models/HttpErrorResponseModel';
-import { AxiosResponse } from 'axios';
 import HttpUtil from './HttpUtil';
-import { SingleItemOrArray } from '../definitions/SingleItemOrArray';
 import { FlattenIfArray } from '../definitions/FlattenIfArray';
+import { APIResponse } from '../models/api';
 
-const _createModels = <T>(
-  Model: Constructor<FlattenIfArray<T>>,
-  response: AxiosResponse | HttpErrorResponseModel
-): SingleItemOrArray<T> | HttpErrorResponseModel => {
-  if (response instanceof HttpErrorResponseModel) {
-    return response;
-  }
-
-  return !Array.isArray(response.data) ? new Model(response.data) : (response.data.map((json) => new Model(json)) as any);
+const _createModels = <T>(Model: Constructor<FlattenIfArray<T>>, data: T) => {
+  return !Array.isArray(data) ? new Model(data) : (data.map((json) => new Model(json)) as any);
 };
 
-export const getToModel = async <T>(
-  Model: Constructor<FlattenIfArray<T>>,
-  endpoint: string,
-  params?: any
-): Promise<SingleItemOrArray<T> | HttpErrorResponseModel> => {
-  const response: AxiosResponse | HttpErrorResponseModel = await HttpUtil.get(endpoint, params);
+export const getToModel = async <T>(Model: Constructor<FlattenIfArray<T>>, endpoint: string, params?: any): Promise<APIResponse<T>> => {
+  const { data, error } = await HttpUtil.get<T>(endpoint, params);
 
-  return _createModels<T>(Model, response);
-};
-
-export const postToModel = async <T>(
-  Model: Constructor<FlattenIfArray<T>>,
-  endpoint: string,
-  data?: any
-): Promise<SingleItemOrArray<T> | HttpErrorResponseModel> => {
-  const response: AxiosResponse | HttpErrorResponseModel = await HttpUtil.post(endpoint, data);
-
-  return _createModels<T>(Model, response);
+  return {
+    error,
+    data: data ? _createModels(Model, data) : null,
+  };
 };

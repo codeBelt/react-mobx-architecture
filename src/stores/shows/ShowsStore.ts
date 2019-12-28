@@ -62,7 +62,7 @@ export default class ShowsStore extends BaseStore {
     const endpoint = environment.api.errorExample;
 
     await this.requestAction((status) => {
-      this.errorExample = { ...this.errorExample, ...status, data: status.data?.data ?? null };
+      this.errorExample = { ...this.errorExample, ...status, data: status?.data || null };
     }, HttpUtil.get<null>(endpoint));
   }
 

@@ -1,5 +1,6 @@
 import axios, { AxiosRequestConfig, AxiosResponse, Method } from 'axios';
 import HttpErrorResponseModel from '../models/HttpErrorResponseModel';
+import { APIResponse } from '../models/api';
 
 export enum RequestMethod {
   Get = 'GET',
@@ -15,10 +16,10 @@ export default class HttpUtil {
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   private constructor() {}
 
-  static async get<T>(endpoint: string, params?: any, requestConfig?: AxiosRequestConfig): Promise<AxiosResponse<T> | HttpErrorResponseModel> {
+  static async get<T, E = null>(endpoint: string, params?: any, requestConfig?: AxiosRequestConfig) {
     const paramsConfig: AxiosRequestConfig | undefined = params ? { params } : undefined;
 
-    return HttpUtil._request(
+    return HttpUtil._request<T, E>(
       {
         url: endpoint,
         method: RequestMethod.Get,
@@ -30,10 +31,10 @@ export default class HttpUtil {
     );
   }
 
-  static async post<T>(endpoint: string, data?: any): Promise<AxiosResponse<T> | HttpErrorResponseModel> {
+  static async post<T, E = null>(endpoint: string, data?: any) {
     const config: AxiosRequestConfig | undefined = data ? { data } : undefined;
 
-    return HttpUtil._request(
+    return HttpUtil._request<T, E>(
       {
         url: endpoint,
         method: RequestMethod.Post,
@@ -42,10 +43,10 @@ export default class HttpUtil {
     );
   }
 
-  static async put<T>(endpoint: string, data?: any): Promise<AxiosResponse<T> | HttpErrorResponseModel> {
+  static async put<T, E = null>(endpoint: string, data?: any) {
     const config: AxiosRequestConfig | undefined = data ? { data } : undefined;
 
-    return HttpUtil._request(
+    return HttpUtil._request<T, E>(
       {
         url: endpoint,
         method: RequestMethod.Put,
@@ -54,14 +55,14 @@ export default class HttpUtil {
     );
   }
 
-  static async delete<T>(endpoint: string): Promise<AxiosResponse<T> | HttpErrorResponseModel> {
-    return HttpUtil._request({
+  static async delete<T, E = null>(endpoint: string) {
+    return HttpUtil._request<T, E>({
       url: endpoint,
       method: RequestMethod.Delete,
     });
   }
 
-  private static async _request<T>(restRequest: Partial<Request>, config?: AxiosRequestConfig): Promise<AxiosResponse<T> | HttpErrorResponseModel> {
+  private static async _request<T, E>(restRequest: Partial<Request>, config?: AxiosRequestConfig): Promise<APIResponse<T, E>> {
     if (!Boolean(restRequest.url)) {
       console.error(`Received ${restRequest.url} which is invalid for a endpoint url`);
     }
@@ -76,33 +77,18 @@ export default class HttpUtil {
           ...config?.headers,
         },
       };
-      const [axiosResponse] = await Promise.all([axios(axiosRequestConfig), HttpUtil._delay()]);
+      const axiosResponse: AxiosResponse<T> = await axios(axiosRequestConfig);
 
-      const { status, data, request } = axiosResponse;
-
-      if (data.success === false) {
-        return HttpUtil._fillInErrorWithDefaults(
-          {
-            status,
-            message: data.errors.join(' - '),
-            errors: data.errors,
-            url: request ? request.responseURL : restRequest.url,
-            raw: axiosResponse,
-          },
-          restRequest
-        );
-      }
-
-      return {
-        ...axiosResponse,
-      };
+      return { data: axiosResponse.data };
     } catch (error) {
+      let errorResponse;
+
       if (error.response) {
         // The request was made and the server responded with a status code that falls out of the range of 2xx
         const { status, statusText, data } = error.response;
         const errors: string[] = data.hasOwnProperty('errors') ? [statusText, ...data.errors] : [statusText];
 
-        return HttpUtil._fillInErrorWithDefaults(
+        errorResponse = HttpUtil._fillInErrorWithDefaults(
           {
             status,
             message: errors.filter(Boolean).join(' - '),
@@ -116,7 +102,7 @@ export default class HttpUtil {
         // The request was made but no response was received `error.request` is an instance of XMLHttpRequest in the browser and an instance of http.ClientRequest in node.js
         const { status, statusText, responseURL } = error.request;
 
-        return HttpUtil._fillInErrorWithDefaults(
+        errorResponse = HttpUtil._fillInErrorWithDefaults(
           {
             status,
             message: statusText,
@@ -126,19 +112,21 @@ export default class HttpUtil {
           },
           restRequest
         );
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        errorResponse = HttpUtil._fillInErrorWithDefaults(
+          {
+            status: 0,
+            message: error.message,
+            errors: [error.message],
+            url: restRequest.url!,
+            raw: error,
+          },
+          restRequest
+        );
       }
 
-      // Something happened in setting up the request that triggered an Error
-      return HttpUtil._fillInErrorWithDefaults(
-        {
-          status: 0,
-          message: error.message,
-          errors: [error.message],
-          url: restRequest.url!,
-          raw: error,
-        },
-        restRequest
-      );
+      return { error: errorResponse };
     }
   }
 
@@ -155,18 +143,5 @@ export default class HttpUtil {
     model.errors = model.errors.filter(Boolean);
 
     return model;
-  }
-
-  /**
-   * We want to show the loading indicator to the user but sometimes the api
-   * request finished too quickly. This makes sure there the loading indicator is
-   * visual for at least a given time.
-   *
-   * @param duration
-   * @returns {Promise<unknown>}
-   * @private
-   */
-  private static _delay(duration: number = 250): Promise<void> {
-    return new Promise((resolve) => setTimeout(resolve, duration));
   }
 }
