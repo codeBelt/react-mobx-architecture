@@ -91,24 +91,3 @@ export default class SearchPage extends React.Component<IProps, IState> {
     return value;
   }
 }
-
-// const { useState } = React;
-// const { extendObservable } = mobx;
-// const { observer, useObservable } = mobxReact;
-//
-// class Store {
-//   constructor() {
-//     console.log("Created a store");
-//     extendObservable(this, {
-//       count: 0
-//     });
-//   }
-// }
-//
-// const App = observer(() => {
-//   const [store] = useState(() => new Store());
-//
-//   return <button onClick={() => ++store.count}>{store.count}</button>
-// });
-//
-// ReactDOM.render(<App />, document.getElementById("root"));
