@@ -1,12 +1,13 @@
 import styles from './NotFoundPage.module.scss';
 
 import React from 'react';
+import { RouteComponentProps } from 'react-router-dom';
 
-interface IProps {}
-interface IState {}
+interface IRouteParams {}
+interface IProps extends RouteComponentProps<IRouteParams> {}
 
-export default class NotFoundPage extends React.PureComponent<IProps, IState> {
-  render(): JSX.Element {
-    return <div className={styles.wrapper}>Not found page</div>;
-  }
-}
+const NotFoundPage: React.FC<IProps> = (props) => {
+  return <div className={styles.wrapper}>Not found page</div>;
+};
+
+export default NotFoundPage;

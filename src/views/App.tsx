@@ -15,24 +15,23 @@ const SearchPage = lazy(() => import('./search-page/SearchPage'));
 interface IProps {
   readonly history: History;
 }
-interface IState {}
 
-export default class App extends React.Component<IProps, IState> {
-  render(): JSX.Element {
-    return (
-      <Router history={this.props.history}>
-        <Suspense fallback={<LoadingIndicator isActive={true} />}>
-          <MainNav />
-          <Switch>
-            <Route exact={true} path={RouteEnum.Home} component={HomePage} />
-            <Route path={RouteEnum.Episodes} component={EpisodesPage} />
-            <Route path={RouteEnum.About} component={AboutPage} />
-            <Route path={RouteEnum.Search} component={SearchPage} />
-            <Route component={NotFoundPage} />
-          </Switch>
-          <Toasts />
-        </Suspense>
-      </Router>
-    );
-  }
-}
+const App: React.FC<IProps> = (props) => {
+  return (
+    <Router history={props.history}>
+      <Suspense fallback={<LoadingIndicator isActive={true} />}>
+        <MainNav />
+        <Switch>
+          <Route exact={true} path={RouteEnum.Home} component={HomePage} />
+          <Route path={RouteEnum.Episodes} component={EpisodesPage} />
+          <Route path={RouteEnum.About} component={AboutPage} />
+          <Route path={RouteEnum.Search} component={SearchPage} />
+          <Route component={NotFoundPage} />
+        </Switch>
+        <Toasts />
+      </Suspense>
+    </Router>
+  );
+};
+
+export default App;

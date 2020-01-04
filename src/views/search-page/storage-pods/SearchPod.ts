@@ -21,7 +21,7 @@ export default class SearchPod extends BaseStore {
     this.inputValue = inputText;
   }
 
-  async _requestData() {
+  private async _requestData(): Promise<void> {
     const endpoint = this.endpoint.replace(':searchTerm', this.currentSearchTerm);
 
     await this.requestAction((status) => {
@@ -33,8 +33,4 @@ export default class SearchPod extends BaseStore {
     }, getToModel<ShowsSearchResponseModel[]>(ShowsSearchResponseModel, endpoint));
     // }, HttpUtil.get(endpoint));
   }
-
-  // @computed get searchList(): string {
-  //   return `${this.endpoint}${this.results.join('|')}`;
-  // }
 }

@@ -1,44 +1,41 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Item } from 'semantic-ui-react';
-import { inject, observer } from 'mobx-react';
-import ShowsStore from '../../../../stores/shows/ShowsStore';
+import { observer } from 'mobx-react';
+import { rootStoreContext } from '../../../../stores/RootStore';
 
-interface IProps {
-  showsStore?: ShowsStore;
-}
-interface IState {}
+interface IProps {}
 
-@inject('showsStore')
-@observer
-export default class MainOverview extends React.Component<IProps, IState> {
-  componentDidMount(): void {
-    this.props.showsStore!.requestShow();
+const MainOverview: React.FC<IProps> = observer((props) => {
+  const { showsStore } = useContext(rootStoreContext);
+
+  useEffect(() => {
+    showsStore.requestShow();
+  }, [showsStore]);
+
+  const { data, error } = showsStore.show;
+
+  if (!data || error) {
+    return null;
   }
 
-  render(): JSX.Element | null {
-    const { data, error } = this.props.showsStore!.show;
+  const image: string = data.image?.medium ?? '';
+  const network: string = data.network?.name ?? '';
 
-    if (!data || error) {
-      return null;
-    }
+  return (
+    <Item.Group>
+      <Item>
+        <Item.Image src={image} />
+        <Item.Content>
+          <Item.Header as="a">{data.name}</Item.Header>
+          <Item.Meta>{network}</Item.Meta>
+          <Item.Description>
+            <div dangerouslySetInnerHTML={{ __html: data.summary }} />
+          </Item.Description>
+          <Item.Extra>{data.genres.join(' | ')}</Item.Extra>
+        </Item.Content>
+      </Item>
+    </Item.Group>
+  );
+});
 
-    const image: string = data.image?.medium ?? '';
-    const network: string = data.network?.name ?? '';
-
-    return (
-      <Item.Group>
-        <Item>
-          <Item.Image src={image} />
-          <Item.Content>
-            <Item.Header as="a">{data.name}</Item.Header>
-            <Item.Meta>{network}</Item.Meta>
-            <Item.Description>
-              <div dangerouslySetInnerHTML={{ __html: data.summary }} />
-            </Item.Description>
-            <Item.Extra>{data.genres.join(' | ')}</Item.Extra>
-          </Item.Content>
-        </Item>
-      </Item.Group>
-    );
-  }
-}
+export default MainOverview;

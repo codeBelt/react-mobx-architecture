@@ -1,35 +1,32 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Card } from 'semantic-ui-react';
 import CastModel from '../../../../stores/shows/models/cast/CastModel';
 import ActorCard from './components/actor-card/ActorCard';
-import { inject, observer } from 'mobx-react';
-import ShowsStore from '../../../../stores/shows/ShowsStore';
+import { observer } from 'mobx-react';
+import { rootStoreContext } from '../../../../stores/RootStore';
 
-interface IProps {
-  showsStore?: ShowsStore;
-}
-interface IState {}
+interface IProps {}
 
-@inject('showsStore')
-@observer
-export default class Actors extends React.Component<IProps, IState> {
-  componentDidMount(): void {
-    this.props.showsStore!.requestCast();
+const Actors: React.FC<IProps> = observer((props) => {
+  const { showsStore } = useContext(rootStoreContext);
+
+  useEffect(() => {
+    showsStore.requestCast();
+  }, [showsStore]);
+
+  const { data, error } = showsStore.actors;
+
+  if (!data || error) {
+    return null;
   }
 
-  render(): JSX.Element | null {
-    const { data, error } = this.props.showsStore!.actors;
+  return (
+    <Card.Group centered={true}>
+      {data.map((model: CastModel) => (
+        <ActorCard key={model.person.name} cardData={model} />
+      ))}
+    </Card.Group>
+  );
+});
 
-    if (!data || error) {
-      return null;
-    }
-
-    return (
-      <Card.Group centered={true}>
-        {data.map((model: CastModel) => (
-          <ActorCard key={model.person.name} cardData={model} />
-        ))}
-      </Card.Group>
-    );
-  }
-}
+export default Actors;

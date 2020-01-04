@@ -1,50 +1,48 @@
 import * as React from 'react';
 import { Item, Label } from 'semantic-ui-react';
 import ShowModel from '../../../../stores/shows/models/shows/ShowModel';
-import { inject, observer } from 'mobx-react';
-import ShowsStore from '../../../../stores/shows/ShowsStore';
-import { RouterStore } from 'mobx-react-router';
+import { observer } from 'mobx-react';
 import RouteEnum from '../../../../constants/RouteEnum';
+import { useHistory } from 'react-router-dom';
+import { useCallback, useContext } from 'react';
+import { rootStoreContext } from '../../../../stores/RootStore';
 
 interface IProps {
   item: ShowModel;
-  showsStore?: ShowsStore;
-  routingStore?: RouterStore;
 }
-interface IState {}
 
-@inject('showsStore', 'routingStore')
-@observer
-export default class SearchResults extends React.Component<IProps, IState> {
-  public render(): JSX.Element {
-    const { item } = this.props;
+const SearchResults: React.FC<IProps> = observer((props) => {
+  const { item } = props;
+  const history = useHistory();
+  const { showsStore } = useContext(rootStoreContext);
 
-    return (
-      <Item>
-        <Item.Image src={item.image?.medium} />
-        <Item.Content>
-          <Item.Header as="a" onClick={this._onClick}>
-            {item.name}
-          </Item.Header>
-          <Item.Meta>
-            <span className="cinema">{item.id}</span>
-          </Item.Meta>
-          <Item.Description>
-            <div dangerouslySetInnerHTML={{ __html: item.summary }} />
-          </Item.Description>
-          <Item.Extra>
-            <Label icon="globe" content={item.language} />
-            {item.genres.length > 0 && <Label>{item.genres.join(' | ')}</Label>}
-          </Item.Extra>
-        </Item.Content>
-      </Item>
-    );
-  }
+  const onClick = useCallback(() => {
+    const showId = item.id.toString();
 
-  _onClick = () => {
-    const showId = this.props.item.id.toString();
+    showsStore.setCurrentShowId(showId);
+    history.push(RouteEnum.Home);
+  }, [history, item.id, showsStore]);
 
-    this.props.showsStore!.setCurrentShowId(showId);
-    this.props.routingStore!.push(RouteEnum.Home);
-  };
-}
+  return (
+    <Item>
+      <Item.Image src={item.image?.medium} />
+      <Item.Content>
+        <Item.Header as="a" onClick={onClick}>
+          {item.name}
+        </Item.Header>
+        <Item.Meta>
+          <span className="cinema">{item.id}</span>
+        </Item.Meta>
+        <Item.Description>
+          <div dangerouslySetInnerHTML={{ __html: item.summary }} />
+        </Item.Description>
+        <Item.Extra>
+          <Label icon="globe" content={item.language} />
+          {item.genres.length > 0 && <Label>{item.genres.join(' | ')}</Label>}
+        </Item.Extra>
+      </Item.Content>
+    </Item>
+  );
+});
+
+export default SearchResults;

@@ -19,16 +19,14 @@ export default class ShowsStore extends BaseStore {
   @observable actors: IResponseStatus<CastModel[]> = initialResponseStatus([]);
   @observable errorExample: IResponseStatus<null> = initialResponseStatus(null);
 
-  @action
-  setCurrentShowId(showId: string) {
+  @action setCurrentShowId(showId: string) {
     this.currentShowId = showId;
     this.show = initialResponseStatus(null);
     this.episodes = initialResponseStatus([]);
     this.actors = initialResponseStatus([]);
   }
 
-  @action
-  async requestShow() {
+  @action async requestShow() {
     const endpoint = environment.api.shows.replace(':showId', this.currentShowId);
 
     await this.requestAction((status) => {
@@ -36,8 +34,7 @@ export default class ShowsStore extends BaseStore {
     }, getToModel<ShowModel>(ShowModel, endpoint));
   }
 
-  @action
-  async requestEpisodes() {
+  @action async requestEpisodes() {
     const endpoint = environment.api.episodes.replace(':showId', this.currentShowId);
 
     await this.requestAction((status) => {
@@ -45,8 +42,7 @@ export default class ShowsStore extends BaseStore {
     }, getToModel<EpisodeModel[]>(EpisodeModel, endpoint));
   }
 
-  @action
-  async requestCast() {
+  @action async requestCast() {
     const endpoint = environment.api.cast.replace(':showId', this.currentShowId);
 
     await this.requestAction((status) => {
@@ -57,8 +53,7 @@ export default class ShowsStore extends BaseStore {
   /**
    * This is only to trigger an error api response so we can use it for an example in the AboutPage
    */
-  @action
-  async requestError() {
+  @action async requestError() {
     const endpoint = environment.api.errorExample;
 
     await this.requestAction((status) => {
@@ -66,16 +61,14 @@ export default class ShowsStore extends BaseStore {
     }, HttpUtil.get<null>(endpoint));
   }
 
-  @computed
-  get isRequestingShowAndCast(): boolean {
+  @computed get isRequestingShowAndCast(): boolean {
     const { isRequesting: isRequestingCast } = this.actors;
     const { isRequesting: isRequestingShow } = this.show;
 
     return [isRequestingCast, isRequestingShow].some(Boolean);
   }
 
-  @computed
-  get selectEpisodes(): IEpisodeTable[] {
+  @computed get selectEpisodes(): IEpisodeTable[] {
     const seasons: { [season: string]: EpisodeModel[] } = groupBy(this.episodes.data, 'season');
 
     return Object.entries(seasons).map(

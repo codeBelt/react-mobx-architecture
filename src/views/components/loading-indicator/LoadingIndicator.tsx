@@ -1,6 +1,6 @@
 import styles from './LoadingIndicator.module.scss';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import classNames from 'classnames';
 import { Loader } from 'semantic-ui-react';
 
@@ -8,29 +8,20 @@ interface IProps {
   readonly isActive?: boolean;
   readonly className?: string;
 }
-interface IState {}
+const LoadingIndicator: React.FC<IProps> = (props) => {
+  const { isActive = false, className = undefined, children } = props;
+  const cssClasses: string = useMemo(() => classNames(className, { [styles.wrapper]: isActive }), [className, isActive]);
 
-export default class LoadingIndicator extends React.PureComponent<IProps, IState> {
-  static defaultProps: IProps = {
-    isActive: false,
-    className: undefined,
-  };
+  return (
+    <div className={cssClasses}>
+      {isActive && (
+        <div className={styles.loaderContainer}>
+          <Loader content="Loading" active={true} inverted={true} size="huge" />
+        </div>
+      )}
+      {children}
+    </div>
+  );
+};
 
-  render(): JSX.Element {
-    const { children, isActive, className } = this.props;
-    const cssClasses: string = classNames(className, {
-      [styles.wrapper]: isActive,
-    });
-
-    return (
-      <div className={cssClasses}>
-        {isActive && (
-          <div className={styles.loaderContainer}>
-            <Loader content="Loading" active={true} inverted={true} size="huge" />
-          </div>
-        )}
-        {children}
-      </div>
-    );
-  }
-}
+export default LoadingIndicator;

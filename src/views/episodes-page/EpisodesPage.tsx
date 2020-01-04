@@ -1,33 +1,32 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import IEpisodeTable from '../../stores/shows/computed/IEpisodeTable';
 import LoadingIndicator from '../components/loading-indicator/LoadingIndicator';
 import EpisodesTable from './components/episodes-table/EpisodesTable';
-import { inject, observer } from 'mobx-react';
-import ShowsStore from '../../stores/shows/ShowsStore';
+import { observer } from 'mobx-react';
+import { rootStoreContext } from '../../stores/RootStore';
+import { RouteComponentProps } from 'react-router-dom';
 
-interface IProps {
-  showsStore?: ShowsStore;
-}
-interface IState {}
+interface IRouteParams {}
+interface IProps extends RouteComponentProps<IRouteParams> {}
 
-@inject('showsStore')
-@observer
-export default class EpisodesPage extends React.Component<IProps, IState> {
-  componentDidMount(): void {
-    this.props.showsStore!.requestEpisodes();
-  }
+const EpisodesPage: React.FC<IProps> = observer((props) => {
+  const { showsStore } = useContext(rootStoreContext);
 
-  render(): JSX.Element {
-    const { isRequesting } = this.props.showsStore!.episodes;
-    const episodeTables = this.props.showsStore!.selectEpisodes;
+  useEffect(() => {
+    showsStore.requestEpisodes();
+  }, [showsStore]);
 
-    return (
-      <>
-        <LoadingIndicator isActive={isRequesting} />
-        {episodeTables.map((model: IEpisodeTable) => (
-          <EpisodesTable key={model.title} tableData={model} />
-        ))}
-      </>
-    );
-  }
-}
+  const { isRequesting } = showsStore.episodes;
+  const episodeTables = showsStore.selectEpisodes;
+
+  return (
+    <>
+      <LoadingIndicator isActive={isRequesting} />
+      {episodeTables.map((model: IEpisodeTable) => (
+        <EpisodesTable key={model.title} tableData={model} />
+      ))}
+    </>
+  );
+});
+
+export default EpisodesPage;

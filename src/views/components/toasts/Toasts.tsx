@@ -1,32 +1,28 @@
 import styles from './Toasts.module.scss';
 
-import React from 'react';
+import React, { useContext } from 'react';
 import IToast from '../../../stores/toasts/models/IToast';
 import ToastCard from '../toast-card/ToastCard';
-import ToastsStore from '../../../stores/toasts/ToastsStore';
-import { inject, observer } from 'mobx-react';
+import { observer } from 'mobx-react';
+import { rootStoreContext } from '../../../stores/RootStore';
 
-interface IProps {
-  readonly toastsStore?: ToastsStore;
-}
-interface IState {}
+interface IProps {}
 
-@inject('toastsStore')
-@observer
-export default class Toasts extends React.PureComponent<IProps, IState> {
-  render(): JSX.Element | null {
-    const { items } = this.props.toastsStore!;
+const Toasts: React.FC<IProps> = observer((props) => {
+  const { toastsStore } = useContext(rootStoreContext);
+  const { items } = toastsStore;
 
-    if (items.length === 0) {
-      return null;
-    }
-
-    return (
-      <div className={styles.wrapper}>
-        {items.map((model: IToast) => (
-          <ToastCard key={model.id} item={model} />
-        ))}
-      </div>
-    );
+  if (items.length === 0) {
+    return null;
   }
-}
+
+  return (
+    <div className={styles.wrapper}>
+      {items.map((model: IToast) => (
+        <ToastCard key={model.id} item={model} />
+      ))}
+    </div>
+  );
+});
+
+export default Toasts;
