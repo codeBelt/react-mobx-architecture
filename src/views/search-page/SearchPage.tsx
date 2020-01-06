@@ -8,7 +8,7 @@ import { Form, FormProps, InputOnChangeData, Item } from 'semantic-ui-react';
 import SearchResult from './components/search-result/SearchResult';
 import RouteEnum from '../../constants/RouteEnum';
 import SearchStore from './stores/SearchStore';
-import { rootStoreContext } from '../../stores/RootStore';
+import { RootStoreContext } from '../../stores/RootStore';
 import queryString from 'query-string';
 
 interface IRouteParams {
@@ -17,7 +17,7 @@ interface IRouteParams {
 interface IProps extends RouteComponentProps<IRouteParams> {}
 
 const SearchPage: React.FC<IProps> = observer((props) => {
-  const { rootStore } = useContext(rootStoreContext);
+  const { rootStore } = useContext(RootStoreContext);
   const searchStore = useLocalStore(() => new SearchStore(rootStore, { endpoint: environment.api.showsSearch }));
 
   useEffect(() => {

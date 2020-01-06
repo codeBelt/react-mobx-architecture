@@ -15,12 +15,12 @@ export default class RootStore {
   }
 }
 
-export let rootStoreContext: Context<RootStore>;
+export let RootStoreContext: Context<RootStore>;
 
 export const createRootStore = (initialState: RecursivePartial<RootStore> = {}): RootStore => {
   const rootStore = new RootStore(initialState);
 
-  rootStoreContext = React.createContext({ ...rootStore });
+  RootStoreContext = React.createContext({ ...rootStore });
 
   return rootStore;
 };

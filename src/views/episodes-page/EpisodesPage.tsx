@@ -3,14 +3,14 @@ import IEpisodeTable from '../../stores/shows/computed/IEpisodeTable';
 import LoadingIndicator from '../components/loading-indicator/LoadingIndicator';
 import EpisodesTable from './components/episodes-table/EpisodesTable';
 import { observer } from 'mobx-react';
-import { rootStoreContext } from '../../stores/RootStore';
+import { RootStoreContext } from '../../stores/RootStore';
 import { RouteComponentProps } from 'react-router-dom';
 
 interface IRouteParams {}
 interface IProps extends RouteComponentProps<IRouteParams> {}
 
 const EpisodesPage: React.FC<IProps> = observer((props) => {
-  const { showsStore } = useContext(rootStoreContext);
+  const { showsStore } = useContext(RootStoreContext);
 
   useEffect(() => {
     showsStore.requestEpisodes();

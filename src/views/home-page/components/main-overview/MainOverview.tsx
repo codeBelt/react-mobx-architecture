@@ -1,12 +1,12 @@
 import React, { useContext, useEffect } from 'react';
 import { Item } from 'semantic-ui-react';
 import { observer } from 'mobx-react';
-import { rootStoreContext } from '../../../../stores/RootStore';
+import { RootStoreContext } from '../../../../stores/RootStore';
 
 interface IProps {}
 
 const MainOverview: React.FC<IProps> = observer((props) => {
-  const { showsStore } = useContext(rootStoreContext);
+  const { showsStore } = useContext(RootStoreContext);
 
   useEffect(() => {
     showsStore.requestShow();

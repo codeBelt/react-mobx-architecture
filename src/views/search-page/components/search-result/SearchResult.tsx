@@ -5,7 +5,7 @@ import { observer } from 'mobx-react';
 import RouteEnum from '../../../../constants/RouteEnum';
 import { useHistory } from 'react-router-dom';
 import { useCallback, useContext } from 'react';
-import { rootStoreContext } from '../../../../stores/RootStore';
+import { RootStoreContext } from '../../../../stores/RootStore';
 
 interface IProps {
   item: ShowModel;
@@ -14,7 +14,7 @@ interface IProps {
 const SearchResult: React.FC<IProps> = observer((props) => {
   const { item } = props;
   const history = useHistory();
-  const { showsStore } = useContext(rootStoreContext);
+  const { showsStore } = useContext(RootStoreContext);
 
   const onClick = useCallback(() => {
     const showId = item.id.toString();

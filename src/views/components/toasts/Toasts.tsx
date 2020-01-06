@@ -4,12 +4,12 @@ import React, { useContext } from 'react';
 import IToast from '../../../stores/toasts/models/IToast';
 import ToastCard from '../toast-card/ToastCard';
 import { observer } from 'mobx-react';
-import { rootStoreContext } from '../../../stores/RootStore';
+import { RootStoreContext } from '../../../stores/RootStore';
 
 interface IProps {}
 
 const Toasts: React.FC<IProps> = observer((props) => {
-  const { toastsStore } = useContext(rootStoreContext);
+  const { toastsStore } = useContext(RootStoreContext);
   const { items } = toastsStore;
 
   if (items.length === 0) {
