@@ -13,7 +13,7 @@ import { InputOnChangeData } from 'semantic-ui-react/dist/commonjs/elements/Inpu
 import { FormProps } from 'semantic-ui-react/dist/commonjs/collections/Form/Form';
 import RouteEnum from '../../constants/RouteEnum';
 import queryString from 'query-string';
-import SearchResults from './components/search-results/SearchResults';
+import SearchResult from './components/search-result/SearchResult';
 
 interface IRouteParams {
   term: 'term';
@@ -66,7 +66,7 @@ export default class SearchPage extends React.Component<IProps, IState> {
         </Form>
         <Item.Group divided>
           {data.map((model) => (
-            <SearchResults key={model.id} item={model} />
+            <SearchResult key={model.id} item={model} />
           ))}
         </Item.Group>
       </div>

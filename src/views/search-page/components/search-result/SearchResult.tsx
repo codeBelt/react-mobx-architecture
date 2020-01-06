@@ -15,7 +15,7 @@ interface IState {}
 
 @inject('showsStore', 'routingStore')
 @observer
-export default class SearchResults extends React.Component<IProps, IState> {
+export default class SearchResult extends React.Component<IProps, IState> {
   public render(): JSX.Element {
     const { item } = this.props;
 
