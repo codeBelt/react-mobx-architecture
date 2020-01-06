@@ -1,23 +1,26 @@
 import ShowsStore from './shows/ShowsStore';
 import ToastsStore from './toasts/ToastsStore';
 import React, { Context } from 'react';
+import { RouterStore } from 'mobx-react-router';
 
 export default class RootStore {
+  rootStore: this = this;
+  routingStore = new RouterStore();
   showsStore: ShowsStore;
   toastsStore: ToastsStore;
-  // routingStore: RouterStore;
 
   constructor(initialState: RecursivePartial<RootStore>) {
     this.showsStore = new ShowsStore(this, initialState.showsStore);
     this.toastsStore = new ToastsStore(this, initialState.toastsStore);
-    // this.routingStore = new RouterStore();
   }
 }
 
-export let rootStoreContext: Context<any>; // TODO: is this the correct type?
+export let rootStoreContext: Context<RootStore>;
 
-export const createRootStoreContext = (initialState: RecursivePartial<RootStore> = {}): void => {
+export const createRootStore = (initialState: RecursivePartial<RootStore> = {}): RootStore => {
   const rootStore = new RootStore(initialState);
 
-  rootStoreContext = React.createContext({ rootStore, ...rootStore });
+  rootStoreContext = React.createContext({ ...rootStore });
+
+  return rootStore;
 };

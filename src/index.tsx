@@ -5,8 +5,8 @@ import ReactDOM from 'react-dom';
 import { createBrowserHistory, History } from 'history';
 import App from './views/App';
 import environment from 'environment';
-import { RouterStore, syncHistoryWithStore } from 'mobx-react-router';
-import RootStore, { createRootStoreContext } from './stores/RootStore';
+import { syncHistoryWithStore } from 'mobx-react-router';
+import RootStore, { createRootStore } from './stores/RootStore';
 import { configure } from 'mobx';
 
 configure({ enforceActions: 'always' }); // https://mobx.js.org/refguide/api.html#enforceactions
@@ -18,11 +18,9 @@ configure({ enforceActions: 'always' }); // https://mobx.js.org/refguide/api.htm
     },
   };
 
-  createRootStoreContext(initialState);
-
-  const routingStore = new RouterStore();
-  const browserHistory: History = createBrowserHistory({ basename: environment.route.baseRoute });
-  const history = syncHistoryWithStore(browserHistory, routingStore);
+  const rootStore = createRootStore(initialState);
+  const browserHistory = createBrowserHistory({ basename: environment.route.baseRoute });
+  const history = syncHistoryWithStore(browserHistory, rootStore.routingStore);
 
   const rootEl: HTMLElement | null = document.getElementById('root');
   const render = (Component: typeof App, el: HTMLElement | null): void => {
