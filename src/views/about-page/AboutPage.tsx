@@ -4,8 +4,8 @@ import React, { useContext, useEffect } from 'react';
 import LoadingIndicator from '../components/loading-indicator/LoadingIndicator';
 import { Header, Container, Message } from 'semantic-ui-react';
 import { observer } from 'mobx-react';
-import { RootStoreContext } from '../../stores/RootStore';
 import { RouteComponentProps } from 'react-router-dom';
+import { RootStoreContext } from '../../index';
 
 interface IRouteParams {}
 interface IProps extends RouteComponentProps<IRouteParams> {}

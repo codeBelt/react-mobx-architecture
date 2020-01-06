@@ -5,7 +5,7 @@ import { observer } from 'mobx-react';
 import RouteEnum from '../../../../constants/RouteEnum';
 import { useHistory } from 'react-router-dom';
 import { useCallback, useContext } from 'react';
-import { RootStoreContext } from '../../../../stores/RootStore';
+import { RootStoreContext } from '../../../../index';
 
 interface IProps {
   item: ShowModel;

@@ -3,8 +3,8 @@ import IEpisodeTable from '../../stores/shows/computed/IEpisodeTable';
 import LoadingIndicator from '../components/loading-indicator/LoadingIndicator';
 import EpisodesTable from './components/episodes-table/EpisodesTable';
 import { observer } from 'mobx-react';
-import { RootStoreContext } from '../../stores/RootStore';
 import { RouteComponentProps } from 'react-router-dom';
+import { RootStoreContext } from '../../index';
 
 interface IRouteParams {}
 interface IProps extends RouteComponentProps<IRouteParams> {}

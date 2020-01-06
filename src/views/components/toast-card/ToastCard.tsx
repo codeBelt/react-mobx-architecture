@@ -5,8 +5,8 @@ import { Button, Card } from 'semantic-ui-react';
 import IToast from '../../../stores/toasts/models/IToast';
 import { observer } from 'mobx-react';
 import { useCallback, useContext, useMemo } from 'react';
-import { RootStoreContext } from '../../../stores/RootStore';
 import { errorColorMap } from '../../../constants/errorColorMap';
+import { RootStoreContext } from '../../../index';
 
 interface IProps {
   readonly item: IToast;

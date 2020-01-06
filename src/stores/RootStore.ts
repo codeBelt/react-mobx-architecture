@@ -1,6 +1,5 @@
 import ShowsStore from './shows/ShowsStore';
 import ToastsStore from './toasts/ToastsStore';
-import React, { Context } from 'react';
 import { RouterStore } from 'mobx-react-router';
 
 export default class RootStore {
@@ -14,13 +13,3 @@ export default class RootStore {
     this.toastsStore = new ToastsStore(this, initialState.toastsStore);
   }
 }
-
-export let RootStoreContext: Context<RootStore>;
-
-export const createRootStore = (initialState: RecursivePartial<RootStore> = {}): RootStore => {
-  const rootStore = new RootStore(initialState);
-
-  RootStoreContext = React.createContext({ ...rootStore });
-
-  return rootStore;
-};

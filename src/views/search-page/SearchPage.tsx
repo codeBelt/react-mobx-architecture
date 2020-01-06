@@ -8,8 +8,8 @@ import { Form, FormProps, InputOnChangeData, Item } from 'semantic-ui-react';
 import SearchResult from './components/search-result/SearchResult';
 import RouteEnum from '../../constants/RouteEnum';
 import SearchStore from './stores/SearchStore';
-import { RootStoreContext } from '../../stores/RootStore';
 import queryString from 'query-string';
+import { RootStoreContext } from '../../index';
 
 interface IRouteParams {
   term: 'term';
