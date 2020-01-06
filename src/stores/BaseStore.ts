@@ -1,8 +1,8 @@
 import RootStore from './RootStore';
 import { runInAction } from 'mobx';
-import HttpErrorResponseModel from '../models/HttpErrorResponseModel';
 import { IResponseStatus } from '../models/IResponseStatus';
 import ToastStatusEnum from '../constants/ToastStatusEnum';
+import { APIResponse } from '../models/api';
 
 export default class BaseStore {
   protected rootStore: RootStore;
@@ -15,26 +15,23 @@ export default class BaseStore {
     });
   }
 
-  async requestAction<T>(
-    callback: (status: Partial<IResponseStatus<T>>) => void,
-    effect: Promise<T | HttpErrorResponseModel>
-  ): Promise<IResponseStatus<T>> {
+  async requestAction<T>(callback: (status: Partial<IResponseStatus<T>>) => void, effect: Promise<APIResponse<T>>): Promise<IResponseStatus<T>> {
     let statusData: Partial<IResponseStatus<T>> = {
       isRequesting: true,
     };
 
     runInAction(() => callback(statusData));
 
-    const response = await effect;
+    const { data, error } = await effect;
 
     statusData = { ...statusData };
 
-    if (response instanceof HttpErrorResponseModel) {
-      statusData.error = response;
+    if (error) {
+      statusData.error = error;
 
-      this.rootStore.toastsStore.add(response.message, ToastStatusEnum.Error);
+      this.rootStore.toastsStore.add(error.message, ToastStatusEnum.Error);
     } else {
-      statusData.data = response;
+      statusData.data = data!;
     }
 
     statusData.isRequesting = false;

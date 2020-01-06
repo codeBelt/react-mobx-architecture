@@ -21,7 +21,7 @@ import ImageModel from '../ImageModel';
 export default class CharacterModel extends BaseModel {
   public readonly id: number = 0;
   public readonly name: string = '';
-  public readonly image: ImageModel = ImageModel as any;
+  public readonly image: ImageModel | null = ImageModel as any;
 
   /*
    * Client-Side properties (Not from API)

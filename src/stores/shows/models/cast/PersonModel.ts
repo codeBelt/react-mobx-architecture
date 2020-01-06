@@ -30,7 +30,7 @@ export default class PersonModel extends BaseModel {
   public readonly id: number = 0;
   public readonly name: string = '';
   public readonly birthday: string = '';
-  public readonly image: ImageModel = ImageModel as any;
+  public readonly image: ImageModel | null = ImageModel as any;
 
   /*
    * Client-Side properties (Not from API)

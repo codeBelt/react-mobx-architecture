@@ -10,7 +10,7 @@ interface IState {}
 export default class ActorCard extends React.PureComponent<IProps, IState> {
   render(): JSX.Element {
     const { cardData } = this.props;
-    const image: string = cardData?.character?.image?.medium;
+    const image: string = cardData?.character?.image?.medium ?? '';
     const missingImage: string = 'https://react.semantic-ui.com/images/wireframe/image.png';
 
     return (

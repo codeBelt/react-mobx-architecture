@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Item, Label } from 'semantic-ui-react';
+import { Icon, Item, Label } from 'semantic-ui-react';
 import ShowModel from '../../../../stores/shows/models/shows/ShowModel';
 import { inject, observer } from 'mobx-react';
 import ShowsStore from '../../../../stores/shows/ShowsStore';
@@ -15,7 +15,7 @@ interface IState {}
 
 @inject('showsStore', 'routingStore')
 @observer
-export default class SearchResults extends React.Component<IProps, IState> {
+export default class SearchResult extends React.Component<IProps, IState> {
   public render(): JSX.Element {
     const { item } = this.props;
 
@@ -24,7 +24,7 @@ export default class SearchResults extends React.Component<IProps, IState> {
         <Item.Image src={item.image?.medium} />
         <Item.Content>
           <Item.Header as="a" onClick={this._onClick}>
-            {item.name}
+            {item.name} <Icon name="eye" />
           </Item.Header>
           <Item.Meta>
             <span className="cinema">{item.id}</span>
