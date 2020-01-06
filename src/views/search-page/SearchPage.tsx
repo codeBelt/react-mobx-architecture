@@ -5,7 +5,7 @@ import environment from 'environment';
 import { RouteComponentProps } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
 import RootStore from '../../stores/RootStore';
-import SearchPod from './storage-pods/SearchPod';
+import SearchStore from './stores/SearchStore';
 import { observable } from 'mobx';
 import { RouterStore } from 'mobx-react-router';
 import { Form, Item } from 'semantic-ui-react';
@@ -27,29 +27,29 @@ interface IState {}
 @inject('routingStore', 'rootStore')
 @observer
 export default class SearchPage extends React.Component<IProps, IState> {
-  @observable searchPod = new SearchPod(this.props.rootStore!, { endpoint: environment.api.showsSearch });
+  @observable searchStore = new SearchStore(this.props.rootStore!, { endpoint: environment.api.showsSearch });
 
   componentDidMount() {
     const searchTerm = this._getSearchValue();
 
-    this.searchPod.setInputValue(searchTerm);
+    this.searchStore.setInputValue(searchTerm);
 
     if (searchTerm) {
-      this.searchPod.search(searchTerm);
+      this.searchStore.search(searchTerm);
     }
   }
 
   componentDidUpdate(prevProps: Readonly<IProps>, prevState: Readonly<IState>, snapshot?: any): void {
     const searchTerm = this._getSearchValue();
 
-    if (searchTerm !== this.searchPod.currentSearchTerm) {
-      this.searchPod.search(searchTerm);
+    if (searchTerm !== this.searchStore.currentSearchTerm) {
+      this.searchStore.search(searchTerm);
     }
   }
 
   render(): JSX.Element {
-    const { isRequesting, data } = this.searchPod.searchResults;
-    const { inputValue } = this.searchPod;
+    const { isRequesting, data } = this.searchStore.searchResults;
+    const { inputValue } = this.searchStore;
 
     return (
       <div className={styles.wrapper}>
@@ -74,11 +74,11 @@ export default class SearchPage extends React.Component<IProps, IState> {
   }
 
   _onChangeInput = (event: React.ChangeEvent<HTMLInputElement>, data: InputOnChangeData) => {
-    this.searchPod.setInputValue(data.value);
+    this.searchStore.setInputValue(data.value);
   };
 
   _onClickSearch = (event: React.FormEvent<HTMLFormElement>, data: FormProps) => {
-    const { inputValue } = this.searchPod;
+    const { inputValue } = this.searchStore;
 
     this.props.routingStore!.push(`${RouteEnum.Search}?term=${inputValue}`);
   };
