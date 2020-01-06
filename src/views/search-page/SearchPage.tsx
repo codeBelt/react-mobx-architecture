@@ -5,7 +5,7 @@ import environment from 'environment';
 import { RouteComponentProps } from 'react-router-dom';
 import { observer, useLocalStore } from 'mobx-react';
 import { Form, FormProps, InputOnChangeData, Item } from 'semantic-ui-react';
-import SearchResults from './components/search-results/SearchResults';
+import SearchResult from './components/search-result/SearchResult';
 import RouteEnum from '../../constants/RouteEnum';
 import SearchPod from './storage-pods/SearchPod';
 import { rootStoreContext } from '../../stores/RootStore';
@@ -64,7 +64,7 @@ const SearchPage: React.FC<IProps> = observer((props) => {
       </Form>
       <Item.Group divided>
         {data.map((model) => (
-          <SearchResults key={model.id} item={model} />
+          <SearchResult key={model.id} item={model} />
         ))}
       </Item.Group>
     </div>

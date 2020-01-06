@@ -2,7 +2,7 @@ import './index.scss';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { createBrowserHistory, History } from 'history';
+import { createBrowserHistory } from 'history';
 import App from './views/App';
 import environment from 'environment';
 import { syncHistoryWithStore } from 'mobx-react-router';
