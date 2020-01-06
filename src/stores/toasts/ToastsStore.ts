@@ -7,8 +7,7 @@ import BaseStore from '../BaseStore';
 export default class ToastsStore extends BaseStore {
   @observable items: IToast[] = [];
 
-  @action
-  add(message: string, type: ToastStatusEnum): void {
+  @action add(message: string, type: ToastStatusEnum): void {
     const item: IToast = {
       message,
       type,
@@ -18,8 +17,7 @@ export default class ToastsStore extends BaseStore {
     this.items.push(item);
   }
 
-  @action
-  remove(toastId: string): void {
+  @action remove(toastId: string): void {
     this.items = this.items.filter((model: IToast) => model.id !== toastId);
   }
 }

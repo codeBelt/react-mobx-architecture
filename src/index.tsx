@@ -23,7 +23,6 @@ configure({ enforceActions: 'always' }); // https://mobx.js.org/refguide/api.htm
   const history = syncHistoryWithStore(browserHistory, rootStore.routingStore);
 
   const rootEl: HTMLElement | null = document.getElementById('root');
-
   const render = (Component: typeof App, el: HTMLElement | null): void => {
     ReactDOM.render(
       <Provider rootStore={rootStore} {...rootStore}>
