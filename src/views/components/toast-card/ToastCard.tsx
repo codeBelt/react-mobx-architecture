@@ -2,10 +2,10 @@
 
 import * as React from 'react';
 import { Button, ButtonProps, Card, SemanticCOLORS } from 'semantic-ui-react';
-import ToastStatusEnum from '../../../constants/ToastStatusEnum';
 import IToast from '../../../stores/toasts/models/IToast';
 import { inject, observer } from 'mobx-react';
 import ToastsStore from '../../../stores/toasts/ToastsStore';
+import { errorColorMap } from '../../../constants/errorColorMap';
 
 interface IProps {
   readonly item: IToast;
@@ -16,15 +16,9 @@ interface IState {}
 @inject('toastsStore')
 @observer
 export default class ToastCard extends React.PureComponent<IProps, IState> {
-  buttonColorMap: Record<ToastStatusEnum, SemanticCOLORS> = {
-    [ToastStatusEnum.Error]: 'red',
-    [ToastStatusEnum.Warning]: 'orange',
-    [ToastStatusEnum.Success]: 'green',
-  };
-
   render(): JSX.Element {
     const { item } = this.props;
-    const buttonColor: SemanticCOLORS = this.buttonColorMap[item.type];
+    const buttonColor: SemanticCOLORS = errorColorMap[item.type];
 
     return (
       <Card>
