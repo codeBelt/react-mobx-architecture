@@ -5,7 +5,7 @@ import { getToModel } from '../../../utilities/effectUtil';
 import ShowModel from '../../../stores/shows/models/shows/ShowModel';
 import ShowsSearchResponseModel from './models/ShowsSearchResponseModel';
 
-export default class SearchPod extends BaseStore {
+export default class SearchStore extends BaseStore {
   @observable endpoint: string = '';
   @observable currentSearchTerm: string = '';
   @observable inputValue: string = '';

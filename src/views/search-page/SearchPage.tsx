@@ -7,7 +7,7 @@ import { observer, useLocalStore } from 'mobx-react';
 import { Form, FormProps, InputOnChangeData, Item } from 'semantic-ui-react';
 import SearchResult from './components/search-result/SearchResult';
 import RouteEnum from '../../constants/RouteEnum';
-import SearchPod from './storage-pods/SearchPod';
+import SearchStore from './stores/SearchStore';
 import { rootStoreContext } from '../../stores/RootStore';
 import queryString from 'query-string';
 
@@ -18,35 +18,35 @@ interface IProps extends RouteComponentProps<IRouteParams> {}
 
 const SearchPage: React.FC<IProps> = observer((props) => {
   const { rootStore } = useContext(rootStoreContext);
-  const searchPod = useLocalStore(() => new SearchPod(rootStore, { endpoint: environment.api.showsSearch }));
+  const searchStore = useLocalStore(() => new SearchStore(rootStore, { endpoint: environment.api.showsSearch }));
 
   useEffect(() => {
     const params = queryString.parse(props.location.search);
     const searchTerm = (params?.term as string) ?? '';
 
-    searchPod.setInputValue(searchTerm);
+    searchStore.setInputValue(searchTerm);
 
-    if (searchTerm !== searchPod.currentSearchTerm) {
-      searchPod.search(searchTerm);
+    if (searchTerm !== searchStore.currentSearchTerm) {
+      searchStore.search(searchTerm);
     }
-  }, [props.location.search, searchPod]);
+  }, [props.location.search, searchStore]);
 
-  const { isRequesting, data } = searchPod.searchResults;
-  const { inputValue } = searchPod;
+  const { isRequesting, data } = searchStore.searchResults;
+  const { inputValue } = searchStore;
 
   const onClickSearch = useCallback(
     (event: React.FormEvent<HTMLFormElement>, data: FormProps) => {
-      const { inputValue } = searchPod;
+      const { inputValue } = searchStore;
 
       props.history.push(`${RouteEnum.Search}?term=${inputValue}`);
     },
-    [props.history, searchPod]
+    [props.history, searchStore]
   );
   const onChangeInput = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>, data: InputOnChangeData) => {
-      searchPod.setInputValue(data.value);
+      searchStore.setInputValue(data.value);
     },
-    [searchPod]
+    [searchStore]
   );
 
   return (
