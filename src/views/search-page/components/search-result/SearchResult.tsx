@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Item, Label } from 'semantic-ui-react';
+import { Icon, Item, Label } from 'semantic-ui-react';
 import ShowModel from '../../../../stores/shows/models/shows/ShowModel';
 import { observer } from 'mobx-react';
 import RouteEnum from '../../../../constants/RouteEnum';
@@ -28,7 +28,7 @@ const SearchResult: React.FC<IProps> = observer((props) => {
       <Item.Image src={item.image?.medium} />
       <Item.Content>
         <Item.Header as="a" onClick={onClick}>
-          {item.name}
+          {item.name} <Icon name="eye" />
         </Item.Header>
         <Item.Meta>
           <span className="cinema">{item.id}</span>
