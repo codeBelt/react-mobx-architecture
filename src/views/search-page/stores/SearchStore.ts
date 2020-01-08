@@ -6,13 +6,16 @@ import ShowModel from '../../../stores/shows/models/shows/ShowModel';
 import { runInAction } from 'mobx';
 import { requestAction } from '../../../utilities/mobxUtil';
 
-export const SearchStore = (rootStore: RootStore, initialState: {} = {}) => ({
-  endpoint: '',
+interface ISourceProps {
+  rootStore: RootStore;
+  endpoint: string;
+}
+
+export const SearchStore = (source: ISourceProps) => ({
+  endpoint: source.endpoint,
   currentSearchTerm: '',
   inputValue: '',
   searchResults: initialResponseStatus<ShowModel[]>([]),
-
-  ...initialState,
 
   search(searchTerm: string) {
     runInAction(() => (this.currentSearchTerm = searchTerm));
@@ -33,7 +36,7 @@ export const SearchStore = (rootStore: RootStore, initialState: {} = {}) => ({
   async _requestData() {
     const endpoint = this.endpoint.replace(':searchTerm', this.currentSearchTerm);
 
-    await requestAction(rootStore)((status) => {
+    await requestAction(source.rootStore)((status) => {
       this.searchResults = {
         ...this.searchResults,
         ...status,

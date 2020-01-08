@@ -18,7 +18,7 @@ interface IProps extends RouteComponentProps<IRouteParams> {}
 
 const SearchPage: React.FC<IProps> = observer((props) => {
   const { rootStore } = useContext(RootStoreContext);
-  const searchStore = useLocalStore(() => SearchStore(rootStore, { endpoint: environment.api.showsSearch }));
+  const searchStore = useLocalStore(SearchStore, { rootStore, endpoint: environment.api.showsSearch });
 
   useEffect(() => {
     const params = queryString.parse(props.location.search);
