@@ -7,7 +7,7 @@ import { observer, useLocalStore } from 'mobx-react';
 import { Form, FormProps, InputOnChangeData, Item } from 'semantic-ui-react';
 import SearchResult from './components/search-result/SearchResult';
 import RouteEnum from '../../constants/RouteEnum';
-import SearchStore from './stores/SearchStore';
+import { SearchStore } from './stores/SearchStore';
 import queryString from 'query-string';
 import { RootStoreContext } from '../../index';
 
@@ -18,7 +18,7 @@ interface IProps extends RouteComponentProps<IRouteParams> {}
 
 const SearchPage: React.FC<IProps> = observer((props) => {
   const { rootStore } = useContext(RootStoreContext);
-  const searchStore = useLocalStore(() => new SearchStore(rootStore, { endpoint: environment.api.showsSearch }));
+  const searchStore = useLocalStore(() => SearchStore(rootStore, { endpoint: environment.api.showsSearch }));
 
   useEffect(() => {
     const params = queryString.parse(props.location.search);

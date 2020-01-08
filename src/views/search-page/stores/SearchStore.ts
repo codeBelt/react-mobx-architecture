@@ -1,35 +1,36 @@
-import { action, observable } from 'mobx';
-import BaseStore from '../../../stores/BaseStore';
-import { initialResponseStatus, IResponseStatus } from '../../../models/IResponseStatus';
-import { getToModel } from '../../../utilities/effectUtil';
-import ShowModel from '../../../stores/shows/models/shows/ShowModel';
+import { initialResponseStatus } from '../../../models/IResponseStatus';
+import { getToModel, requestAction } from '../../../utilities/effectUtil';
 import ShowsSearchResponseModel from './models/ShowsSearchResponseModel';
+import RootStore from '../../../stores/RootStore';
+import ShowModel from '../../../stores/shows/models/shows/ShowModel';
 
-export default class SearchStore extends BaseStore {
-  @observable endpoint: string = '';
-  @observable currentSearchTerm: string = '';
-  @observable inputValue: string = '';
-  @observable searchResults: IResponseStatus<ShowModel[]> = initialResponseStatus([]);
+export const SearchStore = (rootStore: RootStore, initialState: {} = {}) => ({
+  endpoint: '',
+  currentSearchTerm: '',
+  inputValue: '',
+  searchResults: initialResponseStatus<ShowModel[]>([]),
 
-  @action search(searchTerm: string): void {
+  ...initialState,
+
+  search(searchTerm: string) {
     this.currentSearchTerm = searchTerm;
 
     this._requestData();
-  }
+  },
 
-  @action setInputValue(inputText: string): void {
+  setInputValue(inputText: string) {
     this.inputValue = inputText;
-  }
+  },
 
-  private async _requestData(): Promise<void> {
+  async _requestData() {
     const endpoint = this.endpoint.replace(':searchTerm', this.currentSearchTerm);
 
-    await this.requestAction((status) => {
+    await requestAction(rootStore)((status) => {
       this.searchResults = {
         ...this.searchResults,
         ...status,
         data: status.data ? status.data.map((model) => model.show) : [],
       };
     }, getToModel<ShowsSearchResponseModel[]>(ShowsSearchResponseModel, endpoint));
-  }
-}
+  },
+});
