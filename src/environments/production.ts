@@ -12,7 +12,7 @@ const productionEnv: Environment = {
   ...env,
   route: {
     ...env.route,
-    baseRoute: '/react-redux-architecture', // Fixes issue with Github Pages
+    baseRoute: '/react-mobx-architecture', // Fixes issue with Github Pages
   },
 };
 
