@@ -31,6 +31,5 @@ export default class SearchStore extends BaseStore {
         data: status.data ? status.data.map((model) => model.show) : [],
       };
     }, getToModel<ShowsSearchResponseModel[]>(ShowsSearchResponseModel, endpoint));
-    // }, HttpUtil.get(endpoint));
   }
 }
