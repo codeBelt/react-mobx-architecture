@@ -17,8 +17,4 @@ export default class ShowsSearchResponseModel extends BaseModel {
 
     this.update(data);
   }
-
-  public update(data: RecursivePartial<ShowsSearchResponseModel>): void {
-    super.update(data);
-  }
 }

@@ -4,7 +4,7 @@ import React, { useCallback, useContext, useEffect } from 'react';
 import environment from 'environment';
 import { RouteComponentProps } from 'react-router-dom';
 import { observer, useLocalStore } from 'mobx-react';
-import { Form, FormProps, InputOnChangeData, Item } from 'semantic-ui-react';
+import { Form, FormProps, InputOnChangeData, Item, Label, Icon } from 'semantic-ui-react';
 import SearchResult from './components/search-result/SearchResult';
 import RouteEnum from '../../constants/RouteEnum';
 import { SearchStore } from './stores/SearchStore';
@@ -61,8 +61,13 @@ const SearchPage: React.FC<IProps> = observer((props) => {
           value={inputValue}
           onChange={onChangeInput}
         />
+        <div>
+          <Label>
+            <Icon name="list" /> {searchStore.resultsText}
+          </Label>
+        </div>
       </Form>
-      <Item.Group divided>
+      <Item.Group divided={true}>
         {data.map((model) => (
           <SearchResult key={model.id} item={model} />
         ))}

@@ -1,8 +1,10 @@
 import { initialResponseStatus } from '../../../models/IResponseStatus';
-import { getToModel, requestAction } from '../../../utilities/effectUtil';
+import { getToModel } from '../../../utilities/effectUtil';
 import ShowsSearchResponseModel from './models/ShowsSearchResponseModel';
 import RootStore from '../../../stores/RootStore';
 import ShowModel from '../../../stores/shows/models/shows/ShowModel';
+import { runInAction } from 'mobx';
+import { requestAction } from '../../../utilities/mobxUtil';
 
 export const SearchStore = (rootStore: RootStore, initialState: {} = {}) => ({
   endpoint: '',
@@ -13,13 +15,19 @@ export const SearchStore = (rootStore: RootStore, initialState: {} = {}) => ({
   ...initialState,
 
   search(searchTerm: string) {
-    this.currentSearchTerm = searchTerm;
+    runInAction(() => (this.currentSearchTerm = searchTerm));
 
     this._requestData();
   },
 
   setInputValue(inputText: string) {
-    this.inputValue = inputText;
+    runInAction(() => (this.inputValue = inputText));
+  },
+
+  get resultsText(): string {
+    const { data, isRequesting } = this.searchResults;
+
+    return isRequesting ? 'Searching...' : `Results: ${data.length}`;
   },
 
   async _requestData() {
