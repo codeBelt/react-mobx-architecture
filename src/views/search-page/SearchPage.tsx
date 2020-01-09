@@ -4,7 +4,7 @@ import React, { useCallback, useContext, useEffect } from 'react';
 import environment from 'environment';
 import { RouteComponentProps } from 'react-router-dom';
 import { observer, useLocalStore } from 'mobx-react';
-import { Form, FormProps, InputOnChangeData, Item, Label, Icon } from 'semantic-ui-react';
+import { Form, InputOnChangeData, Item, Label, Icon } from 'semantic-ui-react';
 import SearchResult from './components/search-result/SearchResult';
 import RouteEnum from '../../constants/RouteEnum';
 import { SearchStore } from './stores/SearchStore';
@@ -34,14 +34,11 @@ const SearchPage: React.FC<IProps> = observer((props) => {
   const { isRequesting, data } = searchStore.searchResults;
   const { inputValue } = searchStore;
 
-  const onClickSearch = useCallback(
-    (event: React.FormEvent<HTMLFormElement>, data: FormProps) => {
-      const { inputValue } = searchStore;
+  const onClickSearch = useCallback(() => {
+    const { inputValue } = searchStore;
 
-      props.history.push(`${RouteEnum.Search}?term=${inputValue}`);
-    },
-    [props.history, searchStore]
-  );
+    props.history.push(`${RouteEnum.Search}?term=${inputValue}`);
+  }, [props.history, searchStore]);
   const onChangeInput = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>, data: InputOnChangeData) => {
       searchStore.setInputValue(data.value);

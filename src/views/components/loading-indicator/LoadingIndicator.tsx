@@ -10,7 +10,7 @@ interface IProps {
 }
 const LoadingIndicator: React.FC<IProps> = (props) => {
   const { isActive = false, className = undefined, children } = props;
-  const cssClasses: string = useMemo(() => classNames(className, { [styles.wrapper]: isActive }), [className, isActive]);
+  const cssClasses = useMemo(() => classNames(className, { [styles.wrapper]: isActive }), [className, isActive]);
 
   return (
     <div className={cssClasses}>
