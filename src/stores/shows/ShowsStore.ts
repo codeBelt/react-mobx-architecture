@@ -1,4 +1,3 @@
-import { action, computed, observable } from 'mobx';
 import CastModel from './models/cast/CastModel';
 import ShowModel from './models/shows/ShowModel';
 import EpisodeModel from './models/episodes/EpisodeModel';
@@ -9,86 +8,93 @@ import groupBy from 'lodash.groupby';
 import IEpisodeTable from './computed/IEpisodeTable';
 import IEpisodeTableRow from './computed/IEpisodeTableRow';
 import dayjs from 'dayjs';
-import BaseStore from '../BaseStore';
-import { initialResponseStatus, IResponseStatus } from '../../models/IResponseStatus';
+import { initialResponseStatus } from '../../models/IResponseStatus';
+import { requestAction } from '../../utilities/mobxUtil';
+import RootStore from '../RootStore';
+import { observable } from 'mobx';
 
-export default class ShowsStore extends BaseStore {
-  @observable currentShowId: string = '';
-  @observable show: IResponseStatus<ShowModel | null> = initialResponseStatus(null);
-  @observable episodes: IResponseStatus<EpisodeModel[]> = initialResponseStatus([]);
-  @observable actors: IResponseStatus<CastModel[]> = initialResponseStatus([]);
-  @observable errorExample: IResponseStatus<null> = initialResponseStatus(null);
+const ShowsStore = (rootStore: RootStore, initialState: {} = {}) =>
+  observable({
+    currentShowId: '',
+    show: initialResponseStatus<ShowModel | null>(null),
+    episodes: initialResponseStatus<EpisodeModel[]>([]),
+    actors: initialResponseStatus<CastModel[]>([]),
+    errorExample: initialResponseStatus<null>(null),
 
-  @action setCurrentShowId(showId: string) {
-    this.currentShowId = showId;
-    this.show = initialResponseStatus(null);
-    this.episodes = initialResponseStatus([]);
-    this.actors = initialResponseStatus([]);
-  }
+    ...initialState,
 
-  @action async requestShow() {
-    const endpoint = environment.api.shows.replace(':showId', this.currentShowId);
+    setCurrentShowId(showId: string) {
+      this.currentShowId = showId;
+      this.show = initialResponseStatus(null);
+      this.episodes = initialResponseStatus([]);
+      this.actors = initialResponseStatus([]);
+    },
 
-    await this.requestAction((status) => {
-      this.show = { ...this.show, ...status };
-    }, getToModel<ShowModel>(ShowModel, endpoint));
-  }
+    async requestShow() {
+      const endpoint = environment.api.shows.replace(':showId', this.currentShowId);
 
-  @action async requestEpisodes() {
-    const endpoint = environment.api.episodes.replace(':showId', this.currentShowId);
+      await requestAction(rootStore)((status) => {
+        this.show = { ...this.show, ...status };
+      }, getToModel<ShowModel>(ShowModel, endpoint));
+    },
 
-    await this.requestAction((status) => {
-      this.episodes = { ...this.episodes, ...status };
-    }, getToModel<EpisodeModel[]>(EpisodeModel, endpoint));
-  }
+    async requestEpisodes() {
+      const endpoint = environment.api.episodes.replace(':showId', this.currentShowId);
 
-  @action async requestCast() {
-    const endpoint = environment.api.cast.replace(':showId', this.currentShowId);
+      await requestAction(rootStore)((status) => {
+        this.episodes = { ...this.episodes, ...status };
+      }, getToModel<EpisodeModel[]>(EpisodeModel, endpoint));
+    },
 
-    await this.requestAction((status) => {
-      this.actors = { ...this.actors, ...status };
-    }, getToModel<CastModel[]>(CastModel, endpoint));
-  }
+    async requestCast() {
+      const endpoint = environment.api.cast.replace(':showId', this.currentShowId);
 
-  /**
-   * This is only to trigger an error api response so we can use it for an example in the AboutPage
-   */
-  @action async requestError() {
-    const endpoint = environment.api.errorExample;
+      await requestAction(rootStore)((status) => {
+        this.actors = { ...this.actors, ...status };
+      }, getToModel<CastModel[]>(CastModel, endpoint));
+    },
 
-    await this.requestAction((status) => {
-      this.errorExample = { ...this.errorExample, ...status, data: status?.data || null };
-    }, HttpUtil.get<null>(endpoint));
-  }
+    /**
+     * This is only to trigger an error api response so we can use it for an example in the AboutPage
+     */
+    async requestError() {
+      const endpoint = environment.api.errorExample;
 
-  @computed get isRequestingShowAndCast(): boolean {
-    const { isRequesting: isRequestingCast } = this.actors;
-    const { isRequesting: isRequestingShow } = this.show;
+      await requestAction(rootStore)((status) => {
+        this.errorExample = { ...this.errorExample, ...status, data: status?.data || null };
+      }, HttpUtil.get<null>(endpoint));
+    },
 
-    return [isRequestingCast, isRequestingShow].some(Boolean);
-  }
+    get isRequestingShowAndCast(): boolean {
+      const { isRequesting: isRequestingCast } = this.actors;
+      const { isRequesting: isRequestingShow } = this.show;
 
-  @computed get selectEpisodes(): IEpisodeTable[] {
-    const seasons: { [season: string]: EpisodeModel[] } = groupBy(this.episodes.data, 'season');
+      return [isRequestingCast, isRequestingShow].some(Boolean);
+    },
 
-    return Object.entries(seasons).map(
-      ([season, models]: [string, EpisodeModel[]]): IEpisodeTable => {
-        return {
-          title: `Season ${season}`,
-          rows: this._createTableRows(models),
-        };
-      }
-    );
-  }
+    get selectEpisodes() {
+      const seasons: { [season: string]: EpisodeModel[] } = groupBy(this.episodes.data, 'season');
 
-  private _createTableRows(models: EpisodeModel[]): IEpisodeTableRow[] {
-    return models.map(
-      (model: EpisodeModel): IEpisodeTableRow => ({
-        episode: model.number,
-        name: model.name,
-        date: dayjs(model.airdate).format('MMM D, YYYY'),
-        image: model.image?.medium ?? '',
-      })
-    );
-  }
-}
+      return Object.entries(seasons).map(
+        ([season, models]): IEpisodeTable => {
+          return {
+            title: `Season ${season}`,
+            rows: this._createTableRows(models),
+          };
+        }
+      );
+    },
+
+    _createTableRows(models: EpisodeModel[]) {
+      return models.map(
+        (model): IEpisodeTableRow => ({
+          episode: model.number,
+          name: model.name,
+          date: dayjs(model.airdate).format('MMM D, YYYY'),
+          image: model.image?.medium ?? '',
+        })
+      );
+    },
+  });
+
+export default ShowsStore;
