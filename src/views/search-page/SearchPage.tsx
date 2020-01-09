@@ -18,7 +18,7 @@ interface IProps extends RouteComponentProps<IRouteParams> {}
 
 const SearchPage: React.FC<IProps> = observer((props) => {
   const { rootStore } = useContext(RootStoreContext);
-  const [inputValue1, setInputValue] = useState('');
+  const [inputValue, setInputValue] = useState('');
   const searchStore = useLocalStore(SearchLocalStore, { rootStore, endpoint: environment.api.showsSearch });
 
   useEffect(() => {
@@ -32,8 +32,8 @@ const SearchPage: React.FC<IProps> = observer((props) => {
   const { isRequesting, data } = searchStore.searchResults;
 
   const onClickSearch = useCallback(() => {
-    props.history.push(`${RouteEnum.Search}?term=${inputValue1}`);
-  }, [props.history, inputValue1]);
+    props.history.push(`${RouteEnum.Search}?term=${inputValue}`);
+  }, [props.history, inputValue]);
   const onChangeInput = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>, data: InputOnChangeData) => {
       setInputValue(data.value);
@@ -50,7 +50,7 @@ const SearchPage: React.FC<IProps> = observer((props) => {
           icon="search"
           iconPosition="left"
           placeholder="Search..."
-          value={inputValue1}
+          value={inputValue}
           onChange={onChangeInput}
         />
         <div>
