@@ -11,26 +11,23 @@ interface ISourceProps {
   endpoint: string;
 }
 
-export const SearchStore = (source: ISourceProps) => ({
+export const SearchLocalStore = (source: ISourceProps) => ({
   endpoint: source.endpoint,
   currentSearchTerm: '',
-  inputValue: '',
   searchResults: initialResponseStatus<ShowModel[]>([]),
-
-  search(searchTerm: string) {
-    runInAction(() => (this.currentSearchTerm = searchTerm));
-
-    this._requestData();
-  },
-
-  setInputValue(inputText: string) {
-    runInAction(() => (this.inputValue = inputText));
-  },
 
   get resultsText(): string {
     const { data, isRequesting } = this.searchResults;
 
     return isRequesting ? 'Searching...' : `Results: ${data.length}`;
+  },
+
+  search(searchTerm: string) {
+    if (searchTerm !== this.currentSearchTerm) {
+      runInAction(() => (this.currentSearchTerm = searchTerm));
+
+      this._requestData();
+    }
   },
 
   async _requestData() {

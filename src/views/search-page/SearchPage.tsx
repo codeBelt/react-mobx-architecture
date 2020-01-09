@@ -1,13 +1,13 @@
 import styles from './SearchPage.module.scss';
 
-import React, { useCallback, useContext, useEffect } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import environment from 'environment';
 import { RouteComponentProps } from 'react-router-dom';
 import { observer, useLocalStore } from 'mobx-react';
 import { Form, InputOnChangeData, Item, Label, Icon } from 'semantic-ui-react';
 import SearchResult from './components/search-result/SearchResult';
 import RouteEnum from '../../constants/RouteEnum';
-import { SearchStore } from './stores/SearchStore';
+import { SearchLocalStore } from './stores/SearchLocalStore';
 import queryString from 'query-string';
 import { RootStoreContext } from '../../index';
 
@@ -18,32 +18,27 @@ interface IProps extends RouteComponentProps<IRouteParams> {}
 
 const SearchPage: React.FC<IProps> = observer((props) => {
   const { rootStore } = useContext(RootStoreContext);
-  const searchStore = useLocalStore(SearchStore, { rootStore, endpoint: environment.api.showsSearch });
+  const [inputValue1, setInputValue] = useState('');
+  const searchStore = useLocalStore(SearchLocalStore, { rootStore, endpoint: environment.api.showsSearch });
 
   useEffect(() => {
     const params = queryString.parse(props.location.search);
     const searchTerm = (params?.term as string) ?? '';
 
-    searchStore.setInputValue(searchTerm);
-
-    if (searchTerm !== searchStore.currentSearchTerm) {
-      searchStore.search(searchTerm);
-    }
+    setInputValue(searchTerm);
+    searchStore.search(searchTerm);
   }, [props.location.search, searchStore]);
 
   const { isRequesting, data } = searchStore.searchResults;
-  const { inputValue } = searchStore;
 
   const onClickSearch = useCallback(() => {
-    const { inputValue } = searchStore;
-
-    props.history.push(`${RouteEnum.Search}?term=${inputValue}`);
-  }, [props.history, searchStore]);
+    props.history.push(`${RouteEnum.Search}?term=${inputValue1}`);
+  }, [props.history, inputValue1]);
   const onChangeInput = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>, data: InputOnChangeData) => {
-      searchStore.setInputValue(data.value);
+      setInputValue(data.value);
     },
-    [searchStore]
+    [setInputValue]
   );
 
   return (
@@ -55,7 +50,7 @@ const SearchPage: React.FC<IProps> = observer((props) => {
           icon="search"
           iconPosition="left"
           placeholder="Search..."
-          value={inputValue}
+          value={inputValue1}
           onChange={onChangeInput}
         />
         <div>

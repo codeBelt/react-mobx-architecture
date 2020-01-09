@@ -3,7 +3,7 @@ import HttpUtil from './HttpUtil';
 import { FlattenIfArray } from '../definitions/FlattenIfArray';
 import { APIResponse } from '../models/api';
 
-const _createModels = <T>(Model: Constructor<FlattenIfArray<T>>, data: T) => {
+export const createModels = <T>(Model: Constructor<FlattenIfArray<T>>, data: T) => {
   return !Array.isArray(data) ? new Model(data) : (data.map((json) => new Model(json)) as any);
 };
 
@@ -12,6 +12,6 @@ export const getToModel = async <T>(Model: Constructor<FlattenIfArray<T>>, endpo
 
   return {
     error,
-    data: data ? _createModels(Model, data) : null,
+    data: data ? createModels(Model, data) : null,
   };
 };
