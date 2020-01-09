@@ -11,7 +11,7 @@ import dayjs from 'dayjs';
 import { initialResponseStatus } from '../../models/IResponseStatus';
 import { requestAction } from '../../utilities/mobxUtil';
 import RootStore from '../RootStore';
-import { observable } from 'mobx';
+import { observable, runInAction } from 'mobx';
 
 const ShowsStore = (rootStore: RootStore, initialState: {} = {}) =>
   observable({
@@ -24,10 +24,12 @@ const ShowsStore = (rootStore: RootStore, initialState: {} = {}) =>
     ...initialState,
 
     setCurrentShowId(showId: string) {
-      this.currentShowId = showId;
-      this.show = initialResponseStatus(null);
-      this.episodes = initialResponseStatus([]);
-      this.actors = initialResponseStatus([]);
+      runInAction(() => {
+        this.currentShowId = showId;
+        this.show = initialResponseStatus(null);
+        this.episodes = initialResponseStatus([]);
+        this.actors = initialResponseStatus([]);
+      });
     },
 
     async requestShow() {
