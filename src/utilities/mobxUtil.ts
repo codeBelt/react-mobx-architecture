@@ -1,5 +1,5 @@
 import RootStore from '../stores/RootStore';
-import { IResponseStatus, UnknownResponseStatus } from '../models/IResponseStatus';
+import { UnknownResponseStatus } from '../models/IResponseStatus';
 import { APIResponse } from '../models/api';
 import { runInAction } from 'mobx';
 import ToastStatusEnum from '../constants/ToastStatusEnum';
