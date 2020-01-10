@@ -2,7 +2,7 @@
   "name": "react-typescript",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://codebelt.github.io/react-redux-architecture",
+  "homepage": "https://codebelt.github.io/react-mobx-architecture",
   "husky": {
     "hooks": {
       "pre-commit": "pretty-quick --staged",

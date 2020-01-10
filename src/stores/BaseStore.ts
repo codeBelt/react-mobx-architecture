@@ -1,6 +1,6 @@
 import RootStore from './RootStore';
 import { runInAction } from 'mobx';
-import { IResponseStatus } from '../models/IResponseStatus';
+import { UnknownResponseStatus } from '../models/IResponseStatus';
 import ToastStatusEnum from '../constants/ToastStatusEnum';
 import { APIResponse } from '../models/api';
 
@@ -15,8 +15,8 @@ export default class BaseStore {
     });
   }
 
-  async requestAction<T>(callback: (status: Partial<IResponseStatus<T>>) => void, effect: Promise<APIResponse<T>>): Promise<IResponseStatus<T>> {
-    let statusData: Partial<IResponseStatus<T>> = {
+  async requestAction<T>(callback: (status: UnknownResponseStatus<T>) => void, effect: Promise<APIResponse<T>>): Promise<UnknownResponseStatus<T>> {
+    let statusData: UnknownResponseStatus<T> = {
       isRequesting: true,
     };
 
@@ -38,6 +38,6 @@ export default class BaseStore {
 
     runInAction(() => callback(statusData));
 
-    return statusData as IResponseStatus<T>;
+    return statusData;
   }
 }

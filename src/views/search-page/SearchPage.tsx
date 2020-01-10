@@ -8,7 +8,7 @@ import RootStore from '../../stores/RootStore';
 import SearchStore from './stores/SearchStore';
 import { observable } from 'mobx';
 import { RouterStore } from 'mobx-react-router';
-import { Form, Item } from 'semantic-ui-react';
+import { Form, Item, Label, Icon } from 'semantic-ui-react';
 import { InputOnChangeData } from 'semantic-ui-react/dist/commonjs/elements/Input/Input';
 import { FormProps } from 'semantic-ui-react/dist/commonjs/collections/Form/Form';
 import RouteEnum from '../../constants/RouteEnum';
@@ -63,8 +63,13 @@ export default class SearchPage extends React.Component<IProps, IState> {
             value={inputValue}
             onChange={this._onChangeInput}
           />
+          <div>
+            <Label>
+              <Icon name="list" /> {this.searchStore.resultsText}
+            </Label>
+          </div>
         </Form>
-        <Item.Group divided>
+        <Item.Group divided={true}>
           {data.map((model) => (
             <SearchResult key={model.id} item={model} />
           ))}

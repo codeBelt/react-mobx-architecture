@@ -21,6 +21,7 @@ export default class ShowsStore extends BaseStore {
 
   @action setCurrentShowId(showId: string) {
     this.currentShowId = showId;
+    // Clear out old data
     this.show = initialResponseStatus(null);
     this.episodes = initialResponseStatus([]);
     this.actors = initialResponseStatus([]);
