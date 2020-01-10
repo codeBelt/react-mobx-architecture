@@ -26,6 +26,7 @@ const ShowsStore = (rootStore: RootStore, initialState: {} = {}) =>
     setCurrentShowId(showId: string) {
       runInAction(() => {
         this.currentShowId = showId;
+        // Clear out old data
         this.show = initialResponseStatus(null);
         this.episodes = initialResponseStatus([]);
         this.actors = initialResponseStatus([]);

@@ -35,7 +35,6 @@ export const SearchLocalStore = (source: ISourceProps) => ({
 
     await requestAction(source.rootStore)((status) => {
       this.searchResults = {
-        ...this.searchResults,
         ...status,
         data: status.data ? status.data.map((model) => model.show) : [],
       };

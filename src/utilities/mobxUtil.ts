@@ -1,12 +1,12 @@
 import RootStore from '../stores/RootStore';
-import { IResponseStatus } from '../models/IResponseStatus';
+import { IResponseStatus, UnknownResponseStatus } from '../models/IResponseStatus';
 import { APIResponse } from '../models/api';
 import { runInAction } from 'mobx';
 import ToastStatusEnum from '../constants/ToastStatusEnum';
 
 export const requestAction = (rootStore: RootStore) => {
-  return async <T>(callback: (status: Partial<IResponseStatus<T>>) => void, effect: Promise<APIResponse<T>>): Promise<IResponseStatus<T>> => {
-    let statusData: Partial<IResponseStatus<T>> = {
+  return async <T>(callback: (status: UnknownResponseStatus<T>) => void, effect: Promise<APIResponse<T>>): Promise<UnknownResponseStatus<T>> => {
+    let statusData: UnknownResponseStatus<T> = {
       isRequesting: true,
     };
 
