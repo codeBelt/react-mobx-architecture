@@ -1,6 +1,6 @@
 import styles from './SearchPage.module.scss';
 
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import environment from 'environment';
 import { RouteComponentProps } from 'react-router-dom';
 import { observer, useLocalStore } from 'mobx-react';
@@ -9,7 +9,7 @@ import SearchResult from './components/search-result/SearchResult';
 import RouteEnum from '../../constants/RouteEnum';
 import { SearchLocalStore } from './stores/SearchLocalStore';
 import queryString from 'query-string';
-import { RootStoreContext } from '../../index';
+import { useRootStore } from '../../utilities/mobxUtil';
 
 interface IRouteParams {
   term: 'term';
@@ -17,7 +17,7 @@ interface IRouteParams {
 interface IProps extends RouteComponentProps<IRouteParams> {}
 
 const SearchPage: React.FC<IProps> = observer((props) => {
-  const { rootStore } = useContext(RootStoreContext);
+  const { rootStore } = useRootStore();
   const [inputValue, setInputValue] = useState('');
   const searchStore = useLocalStore(SearchLocalStore, { rootStore, endpoint: environment.api.showsSearch });
 

@@ -1,19 +1,19 @@
 import styles from './HomePage.module.scss';
 
-import React, { useContext } from 'react';
+import React from 'react';
 import Actors from './components/actors/Actors';
 import MainOverview from './components/main-overview/MainOverview';
 import { Divider, Icon, Header } from 'semantic-ui-react';
 import LoadingIndicator from '../components/loading-indicator/LoadingIndicator';
 import { RouteComponentProps } from 'react-router-dom';
 import { observer } from 'mobx-react';
-import { RootStoreContext } from '../../index';
+import { useRootStore } from '../../utilities/mobxUtil';
 
 interface IRouteParams {}
 interface IProps extends RouteComponentProps<IRouteParams> {}
 
 const HomePage: React.FC<IProps> = observer((props) => {
-  const { showsStore } = useContext(RootStoreContext);
+  const { showsStore } = useRootStore();
   const isRequesting = showsStore.isRequestingShowAndCast;
 
   return (
