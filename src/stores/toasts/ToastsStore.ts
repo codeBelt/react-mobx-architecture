@@ -1,23 +1,30 @@
-import { action, observable } from 'mobx';
+import { observable, runInAction } from 'mobx';
 import IToast from './models/IToast';
 import ToastStatusEnum from '../../constants/ToastStatusEnum';
 import uuid from 'uuid/v4';
-import BaseStore from '../BaseStore';
+import RootStore from '../RootStore';
 
-export default class ToastsStore extends BaseStore {
-  @observable items: IToast[] = [];
+const ToastsStore = (rootStore: RootStore, initialState: {} = {}) =>
+  observable({
+    items: [] as IToast[],
 
-  @action add(message: string, type: ToastStatusEnum): void {
-    const item: IToast = {
-      message,
-      type,
-      id: uuid(),
-    };
+    ...initialState,
 
-    this.items.push(item);
-  }
+    add(message: string, type: ToastStatusEnum) {
+      const item: IToast = {
+        message,
+        type,
+        id: uuid(),
+      };
 
-  @action remove(toastId: string): void {
-    this.items = this.items.filter((model: IToast) => model.id !== toastId);
-  }
-}
+      runInAction(() => this.items.push(item));
+    },
+
+    remove(toastId: string) {
+      const filtered = this.items.filter((model: IToast) => model.id !== toastId);
+
+      runInAction(() => (this.items = filtered));
+    },
+  });
+
+export default ToastsStore;

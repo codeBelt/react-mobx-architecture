@@ -14,7 +14,7 @@ interface IProps extends RouteComponentProps<IRouteParams> {}
 
 const HomePage: React.FC<IProps> = observer((props) => {
   const { showsStore } = useContext(RootStoreContext);
-  const isRequesting = showsStore!.isRequestingShowAndCast;
+  const isRequesting = showsStore.isRequestingShowAndCast;
 
   return (
     <div className={styles.wrapper}>
