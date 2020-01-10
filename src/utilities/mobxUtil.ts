@@ -3,6 +3,10 @@ import { UnknownResponseStatus } from '../models/IResponseStatus';
 import { APIResponse } from '../models/api';
 import { runInAction } from 'mobx';
 import ToastStatusEnum from '../constants/ToastStatusEnum';
+import { useContext } from 'react';
+import { RootStoreContext } from '../index';
+
+export const useRootStore = () => useContext(RootStoreContext);
 
 export const requestAction = (rootStore: RootStore) => {
   return async <T>(callback: (status: UnknownResponseStatus<T>) => void, effect: Promise<APIResponse<T>>): Promise<UnknownResponseStatus<T>> => {

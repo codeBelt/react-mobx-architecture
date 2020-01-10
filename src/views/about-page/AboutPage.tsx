@@ -1,17 +1,17 @@
 import styles from './AboutPage.module.scss';
 
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import LoadingIndicator from '../components/loading-indicator/LoadingIndicator';
 import { Header, Container, Message } from 'semantic-ui-react';
 import { observer } from 'mobx-react';
 import { RouteComponentProps } from 'react-router-dom';
-import { RootStoreContext } from '../../index';
+import { useRootStore } from '../../utilities/mobxUtil';
 
 interface IRouteParams {}
 interface IProps extends RouteComponentProps<IRouteParams> {}
 
 const AboutPage: React.FC<IProps> = observer((props) => {
-  const { showsStore } = useContext(RootStoreContext);
+  const { showsStore } = useRootStore();
 
   useEffect(() => {
     showsStore.requestError();
