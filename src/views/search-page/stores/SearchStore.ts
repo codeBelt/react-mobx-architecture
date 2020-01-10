@@ -1,15 +1,15 @@
 import { action, computed, observable } from 'mobx';
 import BaseStore from '../../../stores/BaseStore';
-import { initialResponseStatus, IResponseStatus } from '../../../models/IResponseStatus';
+import { initialResponseStatus } from '../../../models/IResponseStatus';
 import { getToModel } from '../../../utilities/effectUtil';
 import ShowModel from '../../../stores/shows/models/shows/ShowModel';
 import ShowsSearchResponseModel from './models/ShowsSearchResponseModel';
 
 export default class SearchStore extends BaseStore {
-  @observable endpoint: string = '';
-  @observable currentSearchTerm: string = '';
-  @observable inputValue: string = '';
-  @observable searchResults: IResponseStatus<ShowModel[]> = initialResponseStatus([]);
+  @observable endpoint = '';
+  @observable currentSearchTerm = '';
+  @observable inputValue = '';
+  @observable searchResults = initialResponseStatus<ShowModel[]>([]);
 
   @computed get resultsText(): string {
     const { data, isRequesting } = this.searchResults;

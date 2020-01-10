@@ -10,14 +10,14 @@ import IEpisodeTable from './computed/IEpisodeTable';
 import IEpisodeTableRow from './computed/IEpisodeTableRow';
 import dayjs from 'dayjs';
 import BaseStore from '../BaseStore';
-import { initialResponseStatus, IResponseStatus } from '../../models/IResponseStatus';
+import { initialResponseStatus } from '../../models/IResponseStatus';
 
 export default class ShowsStore extends BaseStore {
-  @observable currentShowId: string = '';
-  @observable show: IResponseStatus<ShowModel | null> = initialResponseStatus(null);
-  @observable episodes: IResponseStatus<EpisodeModel[]> = initialResponseStatus([]);
-  @observable actors: IResponseStatus<CastModel[]> = initialResponseStatus([]);
-  @observable errorExample: IResponseStatus<null> = initialResponseStatus(null);
+  @observable currentShowId = '';
+  @observable show = initialResponseStatus<ShowModel | null>(null);
+  @observable episodes = initialResponseStatus<EpisodeModel[]>([]);
+  @observable actors = initialResponseStatus<CastModel[]>([]);
+  @observable errorExample = initialResponseStatus<null>(null);
 
   @action setCurrentShowId(showId: string) {
     this.currentShowId = showId;
