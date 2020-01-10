@@ -28,6 +28,6 @@ export const requestAction = (rootStore: RootStore) => {
 
     runInAction(() => callback(statusData));
 
-    return statusData as IResponseStatus<T>;
+    return statusData;
   };
 };
