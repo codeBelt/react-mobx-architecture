@@ -6,7 +6,7 @@ interface IProps {
   readonly cardData: CastModel;
 }
 
-const ActorCard: React.FC<IProps> = (props) => {
+export const ActorCard: React.FC<IProps> = (props) => {
   const { cardData } = props;
   const image: string = cardData?.character?.image?.medium ?? '';
   const missingImage: string = 'https://react.semantic-ui.com/images/wireframe/image.png';
@@ -24,5 +24,3 @@ const ActorCard: React.FC<IProps> = (props) => {
     </Card>
   );
 };
-
-export default ActorCard;

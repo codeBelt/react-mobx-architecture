@@ -12,7 +12,7 @@ interface IProps {
   readonly item: IToast;
 }
 
-const ToastCard: React.FC<IProps> = observer((props) => {
+export const ToastCard: React.FC<IProps> = observer((props) => {
   const { toastsStore } = useRootStore();
   const { item } = props;
 
@@ -36,5 +36,3 @@ const ToastCard: React.FC<IProps> = observer((props) => {
     </Card>
   );
 });
-
-export default ToastCard;

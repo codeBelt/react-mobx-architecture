@@ -2,13 +2,13 @@ import styles from './Toasts.module.scss';
 
 import React from 'react';
 import IToast from '../../../stores/toasts/models/IToast';
-import ToastCard from '../toast-card/ToastCard';
+import { ToastCard } from '../toast-card/ToastCard';
 import { observer } from 'mobx-react';
 import { useRootStore } from '../../../utilities/mobxUtil';
 
 interface IProps {}
 
-const Toasts: React.FC<IProps> = observer((props) => {
+export const Toasts: React.FC<IProps> = observer((props) => {
   const { toastsStore } = useRootStore();
   const { items } = toastsStore;
 
@@ -24,5 +24,3 @@ const Toasts: React.FC<IProps> = observer((props) => {
     </div>
   );
 });
-
-export default Toasts;

@@ -11,7 +11,7 @@ interface IProps {
   item: ShowModel;
 }
 
-const SearchResult: React.FC<IProps> = observer((props) => {
+export const SearchResult: React.FC<IProps> = observer((props) => {
   const { item } = props;
   const history = useHistory();
   const { showsStore } = useRootStore();
@@ -44,5 +44,3 @@ const SearchResult: React.FC<IProps> = observer((props) => {
     </Item>
   );
 });
-
-export default SearchResult;

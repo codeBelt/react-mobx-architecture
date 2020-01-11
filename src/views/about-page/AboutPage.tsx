@@ -1,7 +1,7 @@
 import styles from './AboutPage.module.scss';
 
 import React, { useEffect } from 'react';
-import LoadingIndicator from '../components/loading-indicator/LoadingIndicator';
+import { LoadingIndicator } from '../components/loading-indicator/LoadingIndicator';
 import { Header, Container, Message } from 'semantic-ui-react';
 import { observer } from 'mobx-react';
 import { RouteComponentProps } from 'react-router-dom';

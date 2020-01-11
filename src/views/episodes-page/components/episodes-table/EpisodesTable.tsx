@@ -1,6 +1,6 @@
 import React from 'react';
 import { Header, Table } from 'semantic-ui-react';
-import EpisodesTableRow from '../episodes-table-row/EpisodesTableRow';
+import { EpisodesTableRow } from '../episodes-table-row/EpisodesTableRow';
 import IEpisodeTable from '../../../../stores/shows/computed/IEpisodeTable';
 import IEpisodeTableRow from '../../../../stores/shows/computed/IEpisodeTableRow';
 
@@ -8,7 +8,7 @@ interface IProps {
   readonly tableData: IEpisodeTable;
 }
 
-const EpisodesTable: React.FC<IProps> = (props) => {
+export const EpisodesTable: React.FC<IProps> = (props) => {
   const { tableData } = props;
 
   return (
@@ -32,5 +32,3 @@ const EpisodesTable: React.FC<IProps> = (props) => {
     </div>
   );
 };
-
-export default EpisodesTable;

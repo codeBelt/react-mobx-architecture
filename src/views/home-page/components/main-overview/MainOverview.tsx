@@ -5,7 +5,7 @@ import { useRootStore } from '../../../../utilities/mobxUtil';
 
 interface IProps {}
 
-const MainOverview: React.FC<IProps> = observer((props) => {
+export const MainOverview: React.FC<IProps> = observer((props) => {
   const { showsStore } = useRootStore();
 
   useEffect(() => {
@@ -37,5 +37,3 @@ const MainOverview: React.FC<IProps> = observer((props) => {
     </Item.Group>
   );
 });
-
-export default MainOverview;

@@ -4,7 +4,7 @@ import { ToastStatus } from '../../constants/ToastStatus';
 import uuid from 'uuid/v4';
 import RootStore from '../RootStore';
 
-const ToastsStore = (rootStore: RootStore, initialState: {} = {}) =>
+export const ToastsStore = (rootStore: RootStore, initialState: {} = {}) =>
   observable({
     items: [] as IToast[],
 
@@ -26,5 +26,3 @@ const ToastsStore = (rootStore: RootStore, initialState: {} = {}) =>
       runInAction(() => (this.items = filtered));
     },
   });
-
-export default ToastsStore;

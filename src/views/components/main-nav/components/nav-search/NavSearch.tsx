@@ -8,7 +8,7 @@ import { RouteEnum } from '../../../../../constants/RouteEnum';
 
 interface IProps {}
 
-const NavSearch: React.FC<IProps> = observer((props) => {
+export const NavSearch: React.FC<IProps> = observer((props) => {
   const history = useHistory();
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -36,5 +36,3 @@ const NavSearch: React.FC<IProps> = observer((props) => {
     </Form>
   );
 });
-
-export default NavSearch;

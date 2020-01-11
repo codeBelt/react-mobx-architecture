@@ -1,5 +1,5 @@
-import ShowsStore from './shows/ShowsStore';
-import ToastsStore from './toasts/ToastsStore';
+import { ShowsStore } from './shows/ShowsStore';
+import { ToastsStore } from './toasts/ToastsStore';
 import { RouterStore } from 'mobx-react-router';
 
 export default class RootStore {

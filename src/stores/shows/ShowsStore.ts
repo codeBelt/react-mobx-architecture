@@ -13,7 +13,7 @@ import RootStore from '../RootStore';
 import { observable, runInAction } from 'mobx';
 import http from '../../utilities/http';
 
-const ShowsStore = (rootStore: RootStore, initialState: {} = {}) =>
+export const ShowsStore = (rootStore: RootStore, initialState: {} = {}) =>
   observable({
     currentShowId: '',
     show: initialResponseStatus<ShowModel | null>(null),
@@ -102,5 +102,3 @@ const ShowsStore = (rootStore: RootStore, initialState: {} = {}) =>
       );
     },
   });
-
-export default ShowsStore;

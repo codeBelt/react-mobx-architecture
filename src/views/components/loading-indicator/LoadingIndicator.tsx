@@ -8,7 +8,7 @@ interface IProps {
   readonly isActive?: boolean;
   readonly className?: string;
 }
-const LoadingIndicator: React.FC<IProps> = (props) => {
+export const LoadingIndicator: React.FC<IProps> = (props) => {
   const { isActive = false, className = undefined, children } = props;
   const cssClasses = useMemo(() => classNames(className, { [styles.wrapper]: isActive }), [className, isActive]);
 
@@ -23,5 +23,3 @@ const LoadingIndicator: React.FC<IProps> = (props) => {
     </div>
   );
 };
-
-export default LoadingIndicator;

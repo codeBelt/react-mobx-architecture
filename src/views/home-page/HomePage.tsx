@@ -1,10 +1,10 @@
 import styles from './HomePage.module.scss';
 
 import React from 'react';
-import Actors from './components/actors/Actors';
-import MainOverview from './components/main-overview/MainOverview';
+import { Actors } from './components/actors/Actors';
+import { MainOverview } from './components/main-overview/MainOverview';
 import { Divider, Icon, Header } from 'semantic-ui-react';
-import LoadingIndicator from '../components/loading-indicator/LoadingIndicator';
+import { LoadingIndicator } from '../components/loading-indicator/LoadingIndicator';
 import { RouteComponentProps } from 'react-router-dom';
 import { observer } from 'mobx-react';
 import { useRootStore } from '../../utilities/mobxUtil';
