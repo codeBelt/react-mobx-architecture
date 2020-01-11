@@ -1,5 +1,5 @@
 import { initialResponseStatus } from '../../../models/IResponseStatus';
-import { getToModel } from '../../../utilities/effectUtil';
+import { getToModel } from '../../../utilities/http/httpResponseUtil';
 import ShowsSearchResponseModel from './models/ShowsSearchResponseModel';
 import RootStore from '../../../stores/RootStore';
 import ShowModel from '../../../stores/shows/models/shows/ShowModel';

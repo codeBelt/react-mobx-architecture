@@ -2,8 +2,7 @@ import CastModel from './models/cast/CastModel';
 import ShowModel from './models/shows/ShowModel';
 import EpisodeModel from './models/episodes/EpisodeModel';
 import environment from 'environment';
-import { getToModel } from '../../utilities/effectUtil';
-import HttpUtil from '../../utilities/HttpUtil';
+import { getToModel } from '../../utilities/http/httpResponseUtil';
 import groupBy from 'lodash.groupby';
 import IEpisodeTable from './computed/IEpisodeTable';
 import IEpisodeTableRow from './computed/IEpisodeTableRow';
@@ -12,6 +11,7 @@ import { initialResponseStatus } from '../../models/IResponseStatus';
 import { requestAction } from '../../utilities/mobxUtil';
 import RootStore from '../RootStore';
 import { observable, runInAction } from 'mobx';
+import http from '../../utilities/http';
 
 const ShowsStore = (rootStore: RootStore, initialState: {} = {}) =>
   observable({
@@ -65,7 +65,7 @@ const ShowsStore = (rootStore: RootStore, initialState: {} = {}) =>
 
       await requestAction(rootStore)((status) => {
         this.errorExample = { ...this.errorExample, ...status, data: status?.data || null };
-      }, HttpUtil.get<null>(endpoint));
+      }, http.get<null>(endpoint));
     },
 
     get isRequestingShowAndCast(): boolean {
