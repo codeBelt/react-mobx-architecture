@@ -1,7 +1,7 @@
-import ToastStatusEnum from '../../../constants/ToastStatusEnum';
+import ToastStatus from '../../../constants/ToastStatus';
 
 export default interface IToast {
-  readonly type: ToastStatusEnum;
+  readonly type: ToastStatus;
   readonly message: string;
   readonly id: string;
 }

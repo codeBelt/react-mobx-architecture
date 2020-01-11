@@ -1,14 +1,14 @@
 import { AxiosRequestConfig } from 'axios';
 import { handleRequest } from './http/httpRequestUtil';
-import { RequestMethodEnum } from '../constants/RequestMethodEnum';
+import { RequestMethod } from '../constants/RequestMethod';
 
-const get = async <T, E = null>(endpoint: string, params?: any, requestConfig?: AxiosRequestConfig) => {
+const get = async <T, P = any, E = null>(endpoint: string, params?: P, requestConfig?: AxiosRequestConfig) => {
   const paramsConfig: AxiosRequestConfig | undefined = params ? { params } : undefined;
 
   return handleRequest<T, E>(
     {
       url: endpoint,
-      method: RequestMethodEnum.Get,
+      method: RequestMethod.Get,
     },
     {
       ...paramsConfig,
@@ -23,7 +23,7 @@ const post = async <T, E = null>(endpoint: string, data?: any) => {
   return handleRequest<T, E>(
     {
       url: endpoint,
-      method: RequestMethodEnum.Post,
+      method: RequestMethod.Post,
     },
     config
   );
@@ -35,7 +35,7 @@ const put = async <T, E = null>(endpoint: string, data?: any) => {
   return handleRequest<T, E>(
     {
       url: endpoint,
-      method: RequestMethodEnum.Put,
+      method: RequestMethod.Put,
     },
     config
   );
@@ -44,7 +44,7 @@ const put = async <T, E = null>(endpoint: string, data?: any) => {
 const deleteRequest = async <T, E = null>(endpoint: string) => {
   return handleRequest<T, E>({
     url: endpoint,
-    method: RequestMethodEnum.Delete,
+    method: RequestMethod.Delete,
   });
 };
 

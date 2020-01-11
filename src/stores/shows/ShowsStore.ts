@@ -64,7 +64,10 @@ const ShowsStore = (rootStore: RootStore, initialState: {} = {}) =>
       const endpoint = environment.api.errorExample;
 
       await requestAction(rootStore)((status) => {
-        this.errorExample = { ...this.errorExample, ...status, data: status?.data || null };
+        this.errorExample = {
+          ...status,
+          data: status?.data || null,
+        };
       }, http.get<null>(endpoint));
     },
 

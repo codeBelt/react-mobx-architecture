@@ -1,6 +1,6 @@
 import { observable, runInAction } from 'mobx';
 import IToast from './models/IToast';
-import ToastStatusEnum from '../../constants/ToastStatusEnum';
+import ToastStatus from '../../constants/ToastStatus';
 import uuid from 'uuid/v4';
 import RootStore from '../RootStore';
 
@@ -10,7 +10,7 @@ const ToastsStore = (rootStore: RootStore, initialState: {} = {}) =>
 
     ...initialState,
 
-    add(message: string, type: ToastStatusEnum) {
+    add(message: string, type: ToastStatus) {
       const item: IToast = {
         message,
         type,

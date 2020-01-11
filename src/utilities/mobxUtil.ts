@@ -2,7 +2,7 @@ import RootStore from '../stores/RootStore';
 import { UnknownResponseStatus } from '../models/IResponseStatus';
 import { APIResponse } from '../models/api';
 import { runInAction } from 'mobx';
-import ToastStatusEnum from '../constants/ToastStatusEnum';
+import ToastStatus from '../constants/ToastStatus';
 import { useContext } from 'react';
 import { RootStoreContext } from '../index';
 
@@ -23,7 +23,7 @@ export const requestAction = (rootStore: RootStore) => {
     if (error) {
       statusData.error = error;
 
-      rootStore.toastsStore.add(error.message, ToastStatusEnum.Error);
+      rootStore.toastsStore.add(error.message, ToastStatus.Error);
     } else {
       statusData.data = data!;
     }
