@@ -6,7 +6,7 @@ import { RouteComponentProps } from 'react-router-dom';
 import { observer, useLocalStore } from 'mobx-react';
 import { Form, InputOnChangeData, Item, Label, Icon } from 'semantic-ui-react';
 import SearchResult from './components/search-result/SearchResult';
-import RouteEnum from '../../constants/RouteEnum';
+import { RouteEnum } from '../../constants/RouteEnum';
 import { SearchLocalStore } from './stores/SearchLocalStore';
 import queryString from 'query-string';
 import { useRootStore } from '../../utilities/mobxUtil';

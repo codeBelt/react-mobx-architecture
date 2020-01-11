@@ -1,6 +1,6 @@
 import { observable, runInAction } from 'mobx';
 import IToast from './models/IToast';
-import ToastStatus from '../../constants/ToastStatus';
+import { ToastStatus } from '../../constants/ToastStatus';
 import uuid from 'uuid/v4';
 import RootStore from '../RootStore';
 

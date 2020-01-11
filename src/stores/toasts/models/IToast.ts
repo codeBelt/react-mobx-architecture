@@ -1,4 +1,4 @@
-import ToastStatus from '../../../constants/ToastStatus';
+import { ToastStatus } from '../../../constants/ToastStatus';
 
 export default interface IToast {
   readonly type: ToastStatus;

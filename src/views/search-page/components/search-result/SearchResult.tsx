@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Icon, Item, Label } from 'semantic-ui-react';
 import ShowModel from '../../../../stores/shows/models/shows/ShowModel';
 import { observer } from 'mobx-react';
-import RouteEnum from '../../../../constants/RouteEnum';
+import { RouteEnum } from '../../../../constants/RouteEnum';
 import { useHistory } from 'react-router-dom';
 import { useCallback } from 'react';
 import { useRootStore } from '../../../../utilities/mobxUtil';

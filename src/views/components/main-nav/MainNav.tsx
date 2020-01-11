@@ -3,7 +3,7 @@ import styles from './MainNav.module.scss';
 import React from 'react';
 import { Menu, Segment } from 'semantic-ui-react';
 import MenuNavLink from './components/MenuNavLink';
-import RouteEnum from '../../../constants/RouteEnum';
+import { RouteEnum } from '../../../constants/RouteEnum';
 import { observer } from 'mobx-react';
 import { useLocation } from 'react-router-dom';
 import NavSearch from './components/nav-search/NavSearch';

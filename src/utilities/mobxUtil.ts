@@ -2,7 +2,7 @@ import RootStore from '../stores/RootStore';
 import { UnknownResponseStatus } from '../models/IResponseStatus';
 import { APIResponse } from '../models/api';
 import { runInAction } from 'mobx';
-import ToastStatus from '../constants/ToastStatus';
+import { ToastStatus } from '../constants/ToastStatus';
 import { useContext } from 'react';
 import { RootStoreContext } from '../index';
 

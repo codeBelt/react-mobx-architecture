@@ -1,7 +1,7 @@
 import React, { Suspense, lazy } from 'react';
 import { History } from 'history';
 import { Route, Switch, Router } from 'react-router-dom';
-import RouteEnum from '../constants/RouteEnum';
+import { RouteEnum } from '../constants/RouteEnum';
 import MainNav from './components/main-nav/MainNav';
 import LoadingIndicator from './components/loading-indicator/LoadingIndicator';
 import Toasts from './components/toasts/Toasts';

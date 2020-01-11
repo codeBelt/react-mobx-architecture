@@ -1,4 +1,4 @@
-import ToastStatus from './ToastStatus';
+import { ToastStatus } from './ToastStatus';
 import { SemanticCOLORS } from 'semantic-ui-react';
 
 export const errorColorMap: Record<ToastStatus, SemanticCOLORS> = {
