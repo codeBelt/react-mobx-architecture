@@ -36,7 +36,7 @@ export const ShowsStore = (rootStore: RootStore, initialState: {} = {}) =>
     async requestShow() {
       const endpoint = environment.api.shows.replace(':showId', this.currentShowId);
 
-      await requestAction(rootStore)((status) => {
+      await requestAction((status) => {
         this.show = { ...this.show, ...status };
       }, getToModel<ShowModel>(ShowModel, endpoint));
     },
@@ -44,7 +44,7 @@ export const ShowsStore = (rootStore: RootStore, initialState: {} = {}) =>
     async requestEpisodes() {
       const endpoint = environment.api.episodes.replace(':showId', this.currentShowId);
 
-      await requestAction(rootStore)((status) => {
+      await requestAction((status) => {
         this.episodes = { ...this.episodes, ...status };
       }, getToModel<EpisodeModel[]>(EpisodeModel, endpoint));
     },
@@ -52,7 +52,7 @@ export const ShowsStore = (rootStore: RootStore, initialState: {} = {}) =>
     async requestCast() {
       const endpoint = environment.api.cast.replace(':showId', this.currentShowId);
 
-      await requestAction(rootStore)((status) => {
+      await requestAction((status) => {
         this.actors = { ...this.actors, ...status };
       }, getToModel<CastModel[]>(CastModel, endpoint));
     },
@@ -63,7 +63,7 @@ export const ShowsStore = (rootStore: RootStore, initialState: {} = {}) =>
     async requestError() {
       const endpoint = environment.api.errorExample;
 
-      await requestAction(rootStore)((status) => {
+      await requestAction((status) => {
         this.errorExample = {
           ...status,
           data: status?.data || null,

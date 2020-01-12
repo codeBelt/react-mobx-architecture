@@ -1,13 +1,11 @@
 import { initialResponseStatus } from '../../../models/IResponseStatus';
 import { getToModel } from '../../../utilities/http/httpResponseUtil';
 import ShowsSearchResponseModel from './models/ShowsSearchResponseModel';
-import RootStore from '../../../stores/RootStore';
 import ShowModel from '../../../stores/shows/models/shows/ShowModel';
 import { runInAction } from 'mobx';
 import { requestAction } from '../../../utilities/mobxUtil';
 
 interface ISourceProps {
-  rootStore: RootStore;
   endpoint: string;
 }
 
@@ -33,7 +31,7 @@ export const SearchLocalStore = (source: ISourceProps) => ({
   async _requestData() {
     const endpoint = this.endpoint.replace(':searchTerm', this.currentSearchTerm);
 
-    await requestAction(source.rootStore)((status) => {
+    await requestAction((status) => {
       this.searchResults = {
         ...status,
         data: status.data ? status.data.map((model) => model.show) : [],
