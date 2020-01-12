@@ -1,9 +1,10 @@
 import { initialResponseStatus } from '../../../models/IResponseStatus';
-import { getToModel } from '../../../utilities/http/httpResponseUtil';
 import ShowsSearchResponseModel from './models/ShowsSearchResponseModel';
 import ShowModel from '../../../stores/shows/models/shows/ShowModel';
 import { runInAction } from 'mobx';
 import { requestAction } from '../../../utilities/mobxUtil';
+import { responseToModels } from '../../../utilities/apiUtil';
+import http from '../../../utilities/http';
 
 interface ISourceProps {
   endpoint: string;
@@ -36,6 +37,6 @@ export const SearchLocalStore = (source: ISourceProps) => ({
         ...status,
         data: status.data ? status.data.map((model) => model.show) : [],
       };
-    }, getToModel<ShowsSearchResponseModel[]>(ShowsSearchResponseModel, endpoint));
+    }, responseToModels<ShowsSearchResponseModel[]>(http.get(endpoint), ShowsSearchResponseModel));
   },
 });

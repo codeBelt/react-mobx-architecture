@@ -2,7 +2,6 @@ import CastModel from './models/cast/CastModel';
 import ShowModel from './models/shows/ShowModel';
 import EpisodeModel from './models/episodes/EpisodeModel';
 import environment from 'environment';
-import { getToModel } from '../../utilities/http/httpResponseUtil';
 import groupBy from 'lodash.groupby';
 import IEpisodeTable from './computed/IEpisodeTable';
 import IEpisodeTableRow from './computed/IEpisodeTableRow';
@@ -12,6 +11,7 @@ import { requestAction } from '../../utilities/mobxUtil';
 import RootStore from '../RootStore';
 import { observable, runInAction } from 'mobx';
 import http from '../../utilities/http';
+import { responseToModels } from '../../utilities/apiUtil';
 
 export const ShowsStore = (rootStore: RootStore, initialState: {} = {}) =>
   observable({
@@ -38,7 +38,7 @@ export const ShowsStore = (rootStore: RootStore, initialState: {} = {}) =>
 
       await requestAction((status) => {
         this.show = { ...this.show, ...status };
-      }, getToModel<ShowModel>(ShowModel, endpoint));
+      }, responseToModels<ShowModel>(http.get(endpoint), ShowModel));
     },
 
     async requestEpisodes() {
@@ -46,7 +46,7 @@ export const ShowsStore = (rootStore: RootStore, initialState: {} = {}) =>
 
       await requestAction((status) => {
         this.episodes = { ...this.episodes, ...status };
-      }, getToModel<EpisodeModel[]>(EpisodeModel, endpoint));
+      }, responseToModels<EpisodeModel[]>(http.get(endpoint), EpisodeModel));
     },
 
     async requestCast() {
@@ -54,7 +54,7 @@ export const ShowsStore = (rootStore: RootStore, initialState: {} = {}) =>
 
       await requestAction((status) => {
         this.actors = { ...this.actors, ...status };
-      }, getToModel<CastModel[]>(CastModel, endpoint));
+      }, responseToModels<CastModel[]>(http.get(endpoint), CastModel));
     },
 
     /**
