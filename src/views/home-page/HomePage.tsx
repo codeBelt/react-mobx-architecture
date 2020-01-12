@@ -7,13 +7,13 @@ import { Divider, Icon, Header } from 'semantic-ui-react';
 import { LoadingIndicator } from '../components/loading-indicator/LoadingIndicator';
 import { RouteComponentProps } from 'react-router-dom';
 import { observer } from 'mobx-react';
-import { useRootStore } from '../../utilities/mobxUtil';
+import { rootStore } from '../../index';
 
 interface IRouteParams {}
 interface IProps extends RouteComponentProps<IRouteParams> {}
 
 const HomePage: React.FC<IProps> = observer((props) => {
-  const { showsStore } = useRootStore();
+  const { showsStore } = rootStore;
   const isRequesting = showsStore.isRequestingShowAndCast;
 
   return (

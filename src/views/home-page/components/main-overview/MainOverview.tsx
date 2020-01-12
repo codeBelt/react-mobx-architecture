@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 import { Item } from 'semantic-ui-react';
 import { observer } from 'mobx-react';
-import { useRootStore } from '../../../../utilities/mobxUtil';
+import { rootStore } from '../../../../index';
 
 interface IProps {}
 
 export const MainOverview: React.FC<IProps> = observer((props) => {
-  const { showsStore } = useRootStore();
+  const { showsStore } = rootStore;
 
   useEffect(() => {
     showsStore.requestShow();

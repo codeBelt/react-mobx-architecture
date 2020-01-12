@@ -1,22 +1,5 @@
-import { Constructor } from '../../definitions/Constructor';
-import { FlattenIfArray } from '../../definitions/FlattenIfArray';
-import { APIResponse } from '../../models/api';
 import { isDefined } from '../miscUtil';
 import { fillInErrorWithDefaults } from './fillInErrorWithDefaults';
-import http from '../http';
-
-export const createModels = <T>(Model: Constructor<FlattenIfArray<T>>, data: T) => {
-  return !Array.isArray(data) ? new Model(data) : (data.map((json) => new Model(json)) as any);
-};
-
-export const getToModel = async <T>(Model: Constructor<FlattenIfArray<T>>, endpoint: string, params?: any): Promise<APIResponse<T>> => {
-  const { data, error } = await http.get<T>(endpoint, params);
-
-  return {
-    error,
-    data: data ? createModels(Model, data) : null,
-  };
-};
 
 export const createResponseError = (error: any, restRequest: Partial<Request>) => {
   if (error.response) {
