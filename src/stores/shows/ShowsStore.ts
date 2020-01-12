@@ -66,7 +66,7 @@ export const ShowsStore = (rootStore: RootStore, initialState: {} = {}) =>
       await requestAction((status) => {
         this.errorExample = {
           ...status,
-          data: status?.data || null,
+          data: status.data || null,
         };
       }, http.get<null>(endpoint));
     },
