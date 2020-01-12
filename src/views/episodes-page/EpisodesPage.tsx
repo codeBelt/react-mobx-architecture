@@ -4,13 +4,13 @@ import { LoadingIndicator } from '../components/loading-indicator/LoadingIndicat
 import { EpisodesTable } from './components/episodes-table/EpisodesTable';
 import { observer } from 'mobx-react';
 import { RouteComponentProps } from 'react-router-dom';
-import { useRootStore } from '../../utilities/mobxUtil';
+import { rootStore } from '../../index';
 
 interface IRouteParams {}
 interface IProps extends RouteComponentProps<IRouteParams> {}
 
 const EpisodesPage: React.FC<IProps> = observer((props) => {
-  const { showsStore } = useRootStore();
+  const { showsStore } = rootStore;
 
   useEffect(() => {
     showsStore.requestEpisodes();

@@ -1,6 +1,6 @@
 import './index.scss';
 
-import React, { Context } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import { createBrowserHistory } from 'history';
 import { App } from './views/App';
@@ -11,7 +11,7 @@ import { configure } from 'mobx';
 
 configure({ enforceActions: 'always' }); // https://mobx.js.org/refguide/api.html#enforceactions
 
-export let RootStoreContext: Context<RootStore>;
+export let rootStore: RootStore;
 
 (async (window: Window): Promise<void> => {
   const initialState: RecursivePartial<RootStore> = {
@@ -19,9 +19,8 @@ export let RootStoreContext: Context<RootStore>;
       currentShowId: '74',
     },
   };
-  const rootStore = new RootStore(initialState);
 
-  RootStoreContext = React.createContext(rootStore);
+  rootStore = new RootStore(initialState);
 
   const browserHistory = createBrowserHistory({ basename: environment.route.baseRoute });
   const history = syncHistoryWithStore(browserHistory, rootStore.routingStore);
