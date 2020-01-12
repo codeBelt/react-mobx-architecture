@@ -16,7 +16,9 @@ export const requestAction = async <T>(
 
   const { data, error } = await effect;
 
-  statusData = { ...statusData };
+  statusData = {
+    isRequesting: false,
+  };
 
   if (error) {
     statusData.error = error;
@@ -25,8 +27,6 @@ export const requestAction = async <T>(
   } else {
     statusData.data = data!;
   }
-
-  statusData.isRequesting = false;
 
   runInAction(() => callback(statusData));
 
