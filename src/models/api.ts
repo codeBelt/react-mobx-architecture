@@ -1,5 +1,5 @@
 import HttpErrorResponseModel from './HttpErrorResponseModel';
 
-export type SuccessfulResponse<T> = { data: T; error?: null };
-export type UnsuccessfulResponse<T> = { data?: null; error: HttpErrorResponseModel };
-export type APIResponse<T, E = null> = SuccessfulResponse<T> | UnsuccessfulResponse<E>;
+export type SuccessfulResponse<T> = { data: T; error?: undefined };
+export type UnsuccessfulResponse<T> = { data?: undefined; error: HttpErrorResponseModel };
+export type APIResponse<T, E = undefined> = SuccessfulResponse<T> | UnsuccessfulResponse<E>;
