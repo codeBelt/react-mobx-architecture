@@ -7,6 +7,7 @@ import { RouteEnum } from '../../../constants/RouteEnum';
 import { observer } from 'mobx-react';
 import { useLocation } from 'react-router-dom';
 import { NavSearch } from './components/nav-search/NavSearch';
+
 interface IProps {}
 
 export const MainNav: React.FC<IProps> = observer((props) => {
