@@ -11,7 +11,7 @@ import { requestAction } from '../../utilities/mobxUtil';
 import RootStore from '../RootStore';
 import { observable, runInAction } from 'mobx';
 import http from '../../utilities/http';
-import { responseToModels } from '../../utilities/apiUtil';
+import { toastResponseError, responseToModels } from '../../utilities/apiUtil';
 
 export const ShowsStore = (rootStore: RootStore, initialState: {} = {}) =>
   observable({
@@ -36,25 +36,40 @@ export const ShowsStore = (rootStore: RootStore, initialState: {} = {}) =>
     async requestShow() {
       const endpoint = environment.api.shows.replace(':showId', this.currentShowId);
 
-      await requestAction((status) => {
-        this.show = { ...this.show, ...status };
-      }, responseToModels<ShowModel>(http.get(endpoint), ShowModel));
+      await requestAction(
+        (status) => {
+          this.show = { ...this.show, ...status };
+        },
+        http.get<ShowModel>(endpoint),
+        responseToModels(ShowModel),
+        toastResponseError
+      );
     },
 
     async requestEpisodes() {
       const endpoint = environment.api.episodes.replace(':showId', this.currentShowId);
 
-      await requestAction((status) => {
-        this.episodes = { ...this.episodes, ...status };
-      }, responseToModels<EpisodeModel[]>(http.get(endpoint), EpisodeModel));
+      await requestAction(
+        (status) => {
+          this.episodes = { ...this.episodes, ...status };
+        },
+        http.get<EpisodeModel[]>(endpoint),
+        responseToModels(EpisodeModel),
+        toastResponseError
+      );
     },
 
     async requestCast() {
       const endpoint = environment.api.cast.replace(':showId', this.currentShowId);
 
-      await requestAction((status) => {
-        this.actors = { ...this.actors, ...status };
-      }, responseToModels<CastModel[]>(http.get(endpoint), CastModel));
+      await requestAction(
+        (status) => {
+          this.actors = { ...this.actors, ...status };
+        },
+        http.get<CastModel[]>(endpoint),
+        responseToModels(CastModel),
+        toastResponseError
+      );
     },
 
     /**
@@ -63,12 +78,16 @@ export const ShowsStore = (rootStore: RootStore, initialState: {} = {}) =>
     async requestError() {
       const endpoint = environment.api.errorExample;
 
-      await requestAction((status) => {
-        this.errorExample = {
-          ...status,
-          data: status.data || null,
-        };
-      }, http.get<null>(endpoint));
+      await requestAction(
+        (status) => {
+          this.errorExample = {
+            ...status,
+            data: status.data || null,
+          };
+        },
+        http.get<null>(endpoint),
+        toastResponseError
+      );
     },
 
     get isRequestingShowAndCast(): boolean {

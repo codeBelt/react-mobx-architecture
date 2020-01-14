@@ -1,12 +1,12 @@
 import { UnknownResponseStatus } from '../models/IResponseStatus';
 import { APIResponse } from '../models/api';
 import { runInAction } from 'mobx';
-import { ToastStatus } from '../constants/ToastStatus';
-import { rootStore } from '../index';
+import pWaterfall from 'p-waterfall';
 
 export const requestAction = async <T>(
   callback: (status: UnknownResponseStatus<T>) => void,
-  effect: Promise<APIResponse<T>>
+  effect: Promise<APIResponse<T>>,
+  ...transformers: any // TODO: work on type
 ): Promise<UnknownResponseStatus<T>> => {
   let statusData: UnknownResponseStatus<T> = {
     isRequesting: true,
@@ -14,7 +14,7 @@ export const requestAction = async <T>(
 
   runInAction(() => callback(statusData));
 
-  const { data, error } = await effect;
+  const { data, error } = await pWaterfall(transformers, effect);
 
   statusData = {
     isRequesting: false,
@@ -22,8 +22,6 @@ export const requestAction = async <T>(
 
   if (error) {
     statusData.error = error;
-
-    rootStore.toastsStore.add(error.message, ToastStatus.Error);
   } else {
     statusData.data = data!;
   }
