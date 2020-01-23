@@ -7,12 +7,9 @@ import { rootStore } from '../index';
 
 export const responseToModels = <T>(Model: Constructor<FlattenIfArray<T>>) => {
   return (response: APIResponse<T>): APIResponse<T> => {
-    const { data, error } = response;
+    const { data } = response;
 
-    return {
-      error,
-      data: data ? createModels(Model, data) : null,
-    };
+    return data ? { data: createModels(Model, data) } : response;
   };
 };
 
