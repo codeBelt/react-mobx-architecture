@@ -3,10 +3,12 @@ import { APIResponse } from '../models/api';
 import { runInAction } from 'mobx';
 import pWaterfall from 'p-waterfall';
 
+type APITransformer<T> = (response: APIResponse<T>) => APIResponse<T>;
+
 export const requestAction = async <T>(
   callback: (status: UnknownResponseStatus<T>) => void,
   effect: Promise<APIResponse<T>>,
-  ...transformers: ((response: APIResponse<T>) => APIResponse<T>)[]
+  ...transformers: APITransformer<T>[]
 ): Promise<UnknownResponseStatus<T>> => {
   let statusData: UnknownResponseStatus<T> = {
     isRequesting: true,
