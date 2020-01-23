@@ -15,7 +15,7 @@ import { toastResponseError, responseToModels } from '../../utilities/apiUtil';
 
 export const ShowsStore = (rootStore: RootStore, initialState: {} = {}) =>
   observable({
-    currentShowId: '',
+    currentShowId: '1',
     show: initialResponseStatus<ShowModel | null>(null),
     episodes: initialResponseStatus<EpisodeModel[]>([]),
     actors: initialResponseStatus<CastModel[]>([]),
@@ -54,7 +54,7 @@ export const ShowsStore = (rootStore: RootStore, initialState: {} = {}) =>
           this.episodes = { ...this.episodes, ...status };
         },
         http.get<EpisodeModel[]>(endpoint),
-        responseToModels(EpisodeModel),
+        responseToModels<EpisodeModel[]>(EpisodeModel),
         toastResponseError
       );
     },
@@ -67,7 +67,7 @@ export const ShowsStore = (rootStore: RootStore, initialState: {} = {}) =>
           this.actors = { ...this.actors, ...status };
         },
         http.get<CastModel[]>(endpoint),
-        responseToModels(CastModel),
+        responseToModels<CastModel[]>(CastModel),
         toastResponseError
       );
     },

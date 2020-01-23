@@ -9,7 +9,6 @@ import { SearchResult } from './components/search-result/SearchResult';
 import { RouteEnum } from '../../constants/RouteEnum';
 import { SearchLocalStore } from './stores/SearchLocalStore';
 import queryString from 'query-string';
-import { rootStore } from '../../index';
 
 interface IRouteParams {
   term: 'term';
@@ -18,7 +17,7 @@ interface IProps extends RouteComponentProps<IRouteParams> {}
 
 const SearchPage: React.FC<IProps> = observer((props) => {
   const [inputValue, setInputValue] = useState('');
-  const searchStore = useLocalStore(SearchLocalStore, { rootStore: rootStore, endpoint: environment.api.showsSearch });
+  const searchStore = useLocalStore(SearchLocalStore, {  endpoint: environment.api.showsSearch });
 
   useEffect(() => {
     const params = queryString.parse(props.location.search);

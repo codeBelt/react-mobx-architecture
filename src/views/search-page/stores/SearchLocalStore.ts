@@ -40,7 +40,7 @@ export const SearchLocalStore = (source: ISourceProps) => ({
         };
       },
       http.get<ShowsSearchResponseModel[]>(endpoint),
-      responseToModels(ShowsSearchResponseModel),
+      responseToModels<ShowsSearchResponseModel[]>(ShowsSearchResponseModel),
       toastResponseError
     );
   },

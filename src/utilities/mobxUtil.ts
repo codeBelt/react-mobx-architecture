@@ -6,7 +6,7 @@ import pWaterfall from 'p-waterfall';
 export const requestAction = async <T>(
   callback: (status: UnknownResponseStatus<T>) => void,
   effect: Promise<APIResponse<T>>,
-  ...transformers: any // TODO: work on type
+  ...transformers: ((response: APIResponse<T>) => APIResponse<T>)[]
 ): Promise<UnknownResponseStatus<T>> => {
   let statusData: UnknownResponseStatus<T> = {
     isRequesting: true,
@@ -14,7 +14,7 @@ export const requestAction = async <T>(
 
   runInAction(() => callback(statusData));
 
-  const { data, error } = await pWaterfall(transformers, effect);
+  const { data, error } = await pWaterfall(transformers as any, effect);
 
   statusData = {
     isRequesting: false,

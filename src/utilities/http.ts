@@ -1,8 +1,9 @@
 import { AxiosRequestConfig } from 'axios';
 import { handleRequest } from './http/httpRequestUtil';
 import { RequestMethod } from '../constants/RequestMethod';
+import HttpErrorResponseModel from '../models/HttpErrorResponseModel';
 
-const get = async <T, P = any, E = null>(endpoint: string, params?: P, requestConfig?: AxiosRequestConfig) => {
+const get = async <T, P = any, E = HttpErrorResponseModel>(endpoint: string, params?: P, requestConfig?: AxiosRequestConfig) => {
   const paramsConfig: AxiosRequestConfig | undefined = params ? { params } : undefined;
 
   return handleRequest<T, E>(
@@ -17,7 +18,7 @@ const get = async <T, P = any, E = null>(endpoint: string, params?: P, requestCo
   );
 };
 
-const post = async <T, E = null>(endpoint: string, data?: any) => {
+const post = async <T, E = HttpErrorResponseModel>(endpoint: string, data?: any) => {
   const config: AxiosRequestConfig | undefined = data ? { data } : undefined;
 
   return handleRequest<T, E>(
@@ -29,7 +30,7 @@ const post = async <T, E = null>(endpoint: string, data?: any) => {
   );
 };
 
-const put = async <T, E = null>(endpoint: string, data?: any) => {
+const put = async <T, E = HttpErrorResponseModel>(endpoint: string, data?: any) => {
   const config: AxiosRequestConfig | undefined = data ? { data } : undefined;
 
   return handleRequest<T, E>(
@@ -41,7 +42,7 @@ const put = async <T, E = null>(endpoint: string, data?: any) => {
   );
 };
 
-const deleteRequest = async <T, E = null>(endpoint: string) => {
+const deleteRequest = async <T, E = HttpErrorResponseModel>(endpoint: string) => {
   return handleRequest<T, E>({
     url: endpoint,
     method: RequestMethod.Delete,
