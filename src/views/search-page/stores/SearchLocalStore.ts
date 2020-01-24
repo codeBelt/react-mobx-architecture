@@ -1,10 +1,10 @@
 import { initialResponseStatus } from '../../../models/IResponseStatus';
 import { runInAction } from 'mobx';
 import { requestAction } from '../../../utilities/mobxUtil';
-import {toastResponseError, normalizeResponse} from '../../../utilities/apiUtil';
+import { toastResponseError, normalizeResponse } from '../../../utilities/apiUtil';
 import http from '../../../utilities/http';
-import {People} from './models/People';
-import {PeopleSearchResponse} from './models/PeopleSearchResponse';
+import { People } from './models/People';
+import { PeopleSearchResponse } from './models/PeopleSearchResponse';
 
 interface ISourceProps {
   endpoint: string;
@@ -42,6 +42,6 @@ export const SearchLocalStore = (source: ISourceProps) => ({
       http.get<PeopleSearchResponse>(endpoint),
       normalizeResponse<PeopleSearchResponse<People>>(),
       toastResponseError
-    );
+    ); // Trying to get the last return type would be "PeopleSearchResponse<People>"
   },
 });
