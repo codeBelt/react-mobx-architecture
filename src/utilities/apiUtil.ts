@@ -4,6 +4,7 @@ import { APIResponse } from '../models/api';
 import { createModels } from './modelUtil';
 import { ToastStatus } from '../constants/ToastStatus';
 import { rootStore } from '../index';
+import {propertyNormalizer} from './propertyNormalizer';
 
 export const responseToModels = <T>(Model: Constructor<FlattenIfArray<T>>) => {
   return (response: APIResponse<T>): APIResponse<T> => {
@@ -21,4 +22,8 @@ export const toastResponseError = <T>(response: APIResponse<T>): APIResponse<T> 
   }
 
   return response;
+};
+
+export const normalizeResponse = <T>() => <T>(response: APIResponse<T>): APIResponse<T> => {
+  return response.error ? response : { data: propertyNormalizer(response.data) };
 };
