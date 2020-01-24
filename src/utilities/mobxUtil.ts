@@ -16,7 +16,7 @@ export const requestAction = async <T>(
 
   runInAction(() => callback(statusData));
 
-  const { data, error } = await pWaterfall(transformers as any, effect);
+  const { data, error } = await pWaterfall(transformers, effect);
 
   statusData = {
     isRequesting: false,
