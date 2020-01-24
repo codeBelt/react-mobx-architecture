@@ -32,6 +32,7 @@ export const SearchLocalStore = (source: ISourceProps) => ({
   async _requestData() {
     const endpoint = this.endpoint.replace(':searchTerm', this.currentSearchTerm);
 
+    // requestAction(callback, api, ...tupleOfApiResponseTransforms)
     await requestAction(
       (status) => {
         this.searchResults = {
