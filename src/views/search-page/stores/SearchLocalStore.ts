@@ -1,10 +1,10 @@
 import { initialResponseStatus } from '../../../models/IResponseStatus';
-import ShowsSearchResponseModel from './models/ShowsSearchResponseModel';
-import ShowModel from '../../../stores/shows/models/shows/ShowModel';
 import { runInAction } from 'mobx';
 import { requestAction } from '../../../utilities/mobxUtil';
-import { toastResponseError, responseToModels} from '../../../utilities/apiUtil';
+import {toastResponseError, normalizeResponse} from '../../../utilities/apiUtil';
 import http from '../../../utilities/http';
+import {People} from './models/People';
+import {PeopleSearchResponse} from './models/PeopleSearchResponse';
 
 interface ISourceProps {
   endpoint: string;
@@ -13,7 +13,7 @@ interface ISourceProps {
 export const SearchLocalStore = (source: ISourceProps) => ({
   endpoint: source.endpoint,
   currentSearchTerm: '',
-  searchResults: initialResponseStatus<ShowModel[]>([]),
+  searchResults: initialResponseStatus<People[]>([]),
 
   get resultsText(): string {
     const { data, isRequesting } = this.searchResults;
@@ -36,11 +36,11 @@ export const SearchLocalStore = (source: ISourceProps) => ({
       (status) => {
         this.searchResults = {
           ...status,
-          data: status.data ? status.data.map((model) => model.show) : [],
+          data: status.data ? status.data.results : [],
         };
       },
-      http.get<ShowsSearchResponseModel[]>(endpoint),
-      responseToModels<ShowsSearchResponseModel[]>(ShowsSearchResponseModel),
+      http.get<PeopleSearchResponse>(endpoint),
+      normalizeResponse<PeopleSearchResponse<People>>(),
       toastResponseError
     );
   },

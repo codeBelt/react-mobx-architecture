@@ -58,9 +58,9 @@ const SearchPage: React.FC<IProps> = observer((props) => {
         </div>
       </Form>
       <Item.Group divided={true}>
-        {data.map((model) => (
+        {/*{data.map((model) => (
           <SearchResult key={model.id} item={model} />
-        ))}
+        ))}*/}
       </Item.Group>
     </div>
   );
