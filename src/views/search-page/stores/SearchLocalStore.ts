@@ -4,7 +4,8 @@ import { requestAction } from '../../../utilities/mobxUtil';
 import { toastResponseError, normalizeResponse } from '../../../utilities/apiUtil';
 import http from '../../../utilities/http';
 import { People } from './models/People';
-import { PeopleSearchResponse } from './models/PeopleSearchResponse';
+import { SwapiSearchResponse } from './models/SwapiSearchResponse';
+import { PeopleResponse } from './models/PeopleResponse';
 
 interface ISourceProps {
   endpoint: string;
@@ -32,7 +33,6 @@ export const SearchLocalStore = (source: ISourceProps) => ({
   async _requestData() {
     const endpoint = this.endpoint.replace(':searchTerm', this.currentSearchTerm);
 
-    // requestAction(callback, api, ...tupleOfApiResponseTransforms)
     await requestAction(
       (status) => {
         this.searchResults = {
@@ -40,9 +40,9 @@ export const SearchLocalStore = (source: ISourceProps) => ({
           data: status.data ? status.data.results : [],
         };
       },
-      http.get<PeopleSearchResponse>(endpoint),
-      normalizeResponse<PeopleSearchResponse<People>>(),
+      http.get<SwapiSearchResponse<PeopleResponse>>(endpoint),
+      normalizeResponse<SwapiSearchResponse<People>>(),
       toastResponseError
-    ); // Trying to get the last return type would be "PeopleSearchResponse<People>"
+    ); // Trying to get the last return type would be "SwapiSearchResponse<People>"
   },
 });
