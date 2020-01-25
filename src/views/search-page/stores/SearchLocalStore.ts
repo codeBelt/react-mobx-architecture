@@ -3,7 +3,7 @@ import ShowsSearchResponseModel from './models/ShowsSearchResponseModel';
 import ShowModel from '../../../stores/shows/models/shows/ShowModel';
 import { runInAction } from 'mobx';
 import { requestAction } from '../../../utilities/mobxUtil';
-import { responseToModels } from '../../../utilities/apiUtil';
+import { toastResponseError, responseToModels} from '../../../utilities/apiUtil';
 import http from '../../../utilities/http';
 
 interface ISourceProps {
@@ -32,11 +32,16 @@ export const SearchLocalStore = (source: ISourceProps) => ({
   async _requestData() {
     const endpoint = this.endpoint.replace(':searchTerm', this.currentSearchTerm);
 
-    await requestAction((status) => {
-      this.searchResults = {
-        ...status,
-        data: status.data ? status.data.map((model) => model.show) : [],
-      };
-    }, responseToModels<ShowsSearchResponseModel[]>(http.get(endpoint), ShowsSearchResponseModel));
+    await requestAction(
+      (status) => {
+        this.searchResults = {
+          ...status,
+          data: status.data ? status.data.map((model) => model.show) : [],
+        };
+      },
+      http.get<ShowsSearchResponseModel[]>(endpoint),
+      responseToModels<ShowsSearchResponseModel[]>(ShowsSearchResponseModel),
+      toastResponseError
+    );
   },
 });
