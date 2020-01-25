@@ -12,7 +12,7 @@ export default function baseEnv(baseApi: string) {
       cast: `${baseApi}/shows/:showId/cast`,
       episodes: `${baseApi}/shows/:showId/episodes`,
       shows: `${baseApi}/shows/:showId`,
-      showsSearch: `${baseApi}/search/shows?q=:searchTerm`,
+      showsSearch: `https://swapi.co/api/people/?search=:searchTerm`,
       errorExample: 'https://httpstat.us/520',
     },
     isProduction: true,
