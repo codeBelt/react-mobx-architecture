@@ -6,14 +6,22 @@ import groupBy from 'lodash.groupby';
 import IEpisodeTable from './computed/IEpisodeTable';
 import IEpisodeTableRow from './computed/IEpisodeTableRow';
 import dayjs from 'dayjs';
-import { initialResponseStatus } from '../../models/IResponseStatus';
+import { initialResponseStatus, IResponseStatus } from '../../models/IResponseStatus';
 import { requestAction } from '../../utilities/mobxUtil';
 import RootStore from '../RootStore';
 import { observable, runInAction } from 'mobx';
 import http from '../../utilities/http';
 import { toastResponseError, responseToModels } from '../../utilities/apiUtil';
 
-export const ShowsStore = (rootStore: RootStore, initialState: {} = {}) =>
+export interface ShowsStoreState {
+  currentShowId: string;
+  show: IResponseStatus<ShowModel | null>;
+  episodes: IResponseStatus<EpisodeModel[]>;
+  actors: IResponseStatus<CastModel[]>;
+  errorExample: IResponseStatus<null>;
+}
+
+export const ShowsStore = (rootStore: RootStore, initialState: Partial<ShowsStoreState> = {}) =>
   observable({
     currentShowId: '1',
     show: initialResponseStatus<ShowModel | null>(null),
@@ -121,3 +129,5 @@ export const ShowsStore = (rootStore: RootStore, initialState: {} = {}) =>
       );
     },
   });
+
+export type ShowsStoreType = ReturnType<typeof ShowsStore>;

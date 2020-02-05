@@ -3,7 +3,7 @@ import ShowsSearchResponseModel from './models/ShowsSearchResponseModel';
 import ShowModel from '../../../stores/shows/models/shows/ShowModel';
 import { runInAction } from 'mobx';
 import { requestAction } from '../../../utilities/mobxUtil';
-import { toastResponseError, responseToModels} from '../../../utilities/apiUtil';
+import { toastResponseError, responseToModels } from '../../../utilities/apiUtil';
 import http from '../../../utilities/http';
 
 interface ISourceProps {
@@ -21,11 +21,11 @@ export const SearchLocalStore = (source: ISourceProps) => ({
     return isRequesting ? 'Searching...' : `Results: ${data.length}`;
   },
 
-  search(searchTerm: string) {
+  async search(searchTerm: string) {
     if (searchTerm !== this.currentSearchTerm) {
       runInAction(() => (this.currentSearchTerm = searchTerm));
 
-      this._requestData();
+      await this._requestData();
     }
   },
 
@@ -45,3 +45,5 @@ export const SearchLocalStore = (source: ISourceProps) => ({
     );
   },
 });
+
+export type SearchLocalStoreType = ReturnType<typeof SearchLocalStore>;
