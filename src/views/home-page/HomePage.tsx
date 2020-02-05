@@ -7,7 +7,7 @@ import { Divider, Icon, Header } from 'semantic-ui-react';
 import { LoadingIndicator } from '../components/loading-indicator/LoadingIndicator';
 import { RouteComponentProps } from 'react-router-dom';
 import { observer } from 'mobx-react';
-import { useRootStoreContext } from '../../utilities/mobxUtil';
+import { useRootStoreContext } from '../../utilities/storeUtil';
 
 interface IRouteParams {}
 interface IProps extends RouteComponentProps<IRouteParams> {}

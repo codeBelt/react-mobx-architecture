@@ -4,7 +4,7 @@ import React from 'react';
 import IToast from '../../../stores/toasts/models/IToast';
 import { ToastCard } from '../toast-card/ToastCard';
 import { observer } from 'mobx-react';
-import { useRootStoreContext } from '../../../utilities/mobxUtil';
+import { useRootStoreContext } from '../../../utilities/storeUtil';
 
 interface IProps {}
 

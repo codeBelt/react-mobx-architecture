@@ -2,8 +2,6 @@ import { UnknownResponseStatus } from '../models/IResponseStatus';
 import { APIResponse } from '../models/api';
 import { runInAction } from 'mobx';
 import pWaterfall from 'p-waterfall';
-import { useContext } from 'react';
-import { RootStoreContext } from '../index';
 
 type APITransformer<T> = (response: APIResponse<T>) => APIResponse<T>;
 
@@ -34,5 +32,3 @@ export const requestAction = async <T>(
 
   return statusData;
 };
-
-export const useRootStoreContext = () => useContext(RootStoreContext);

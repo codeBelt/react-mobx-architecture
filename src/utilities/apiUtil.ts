@@ -3,8 +3,8 @@ import { FlattenIfArray } from '../definitions/FlattenIfArray';
 import { APIResponse } from '../models/api';
 import { createModels } from './modelUtil';
 import { ToastStatus } from '../constants/ToastStatus';
-import { rootStore } from '../index';
-import {propertyNormalizer} from './propertyNormalizer';
+import { rootStore } from './storeUtil';
+import { propertyNormalizer } from './propertyNormalizer';
 
 export const responseToModels = <T>(Model: Constructor<FlattenIfArray<T>>) => {
   return (response: APIResponse<T>): APIResponse<T> => {

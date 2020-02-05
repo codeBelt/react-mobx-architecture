@@ -5,7 +5,7 @@ import { LoadingIndicator } from '../components/loading-indicator/LoadingIndicat
 import { Header, Container, Message } from 'semantic-ui-react';
 import { observer } from 'mobx-react';
 import { RouteComponentProps } from 'react-router-dom';
-import { useRootStoreContext } from '../../utilities/mobxUtil';
+import { useRootStoreContext } from '../../utilities/storeUtil';
 
 interface IRouteParams {}
 interface IProps extends RouteComponentProps<IRouteParams> {}

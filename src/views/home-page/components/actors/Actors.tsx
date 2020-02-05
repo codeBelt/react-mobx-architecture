@@ -3,7 +3,7 @@ import { Card } from 'semantic-ui-react';
 import CastModel from '../../../../stores/shows/models/cast/CastModel';
 import { ActorCard } from './components/actor-card/ActorCard';
 import { observer } from 'mobx-react';
-import { useRootStoreContext } from '../../../../utilities/mobxUtil';
+import { useRootStoreContext } from '../../../../utilities/storeUtil';
 
 interface IProps {}
 
