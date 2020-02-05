@@ -19,8 +19,7 @@ configure({ enforceActions: 'always' }); // https://mobx.js.org/refguide/api.htm
       currentShowId: '74',
     },
   };
-
-  const rootStore = createRootStore(initialState);
+  const rootStore = createRootStore(initialState as Partial<RootStore>);
 
   const browserHistory = createBrowserHistory({ basename: environment.route.baseRoute });
   const history = syncHistoryWithStore(browserHistory, rootStore.routingStore);

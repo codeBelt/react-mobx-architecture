@@ -1,15 +1,13 @@
-import { ShowsStore } from './shows/ShowsStore';
-import { ToastsStore } from './toasts/ToastsStore';
+import { ShowsStore, ShowsStoreType } from './shows/ShowsStore';
+import { ToastsStore, ToastsStoreType } from './toasts/ToastsStore';
 import { RouterStore } from 'mobx-react-router';
 
 export default class RootStore {
-  readonly rootStore: this = this;
   readonly routingStore = new RouterStore();
+  readonly showsStore: ShowsStoreType;
+  readonly toastsStore: ToastsStoreType;
 
-  readonly showsStore: ReturnType<typeof ShowsStore>;
-  readonly toastsStore: ReturnType<typeof ToastsStore>;
-
-  constructor(initialState: RecursivePartial<RootStore>) {
+  constructor(initialState: Partial<RootStore>) {
     this.showsStore = ShowsStore(this, initialState.showsStore);
     this.toastsStore = ToastsStore(this, initialState.toastsStore);
   }

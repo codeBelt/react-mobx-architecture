@@ -4,7 +4,11 @@ import { ToastStatus } from '../../constants/ToastStatus';
 import uuid from 'uuid/v4';
 import RootStore from '../RootStore';
 
-export const ToastsStore = (rootStore: RootStore, initialState: {} = {}) =>
+export interface ToastsStoreState {
+  items: IToast[];
+}
+
+export const ToastsStore = (rootStore: RootStore, initialState: Partial<ToastsStoreState> = {}) =>
   observable({
     items: [] as IToast[],
 
@@ -26,3 +30,5 @@ export const ToastsStore = (rootStore: RootStore, initialState: {} = {}) =>
       runInAction(() => (this.items = filtered));
     },
   });
+
+export type ToastsStoreType = ReturnType<typeof ToastsStore>;
