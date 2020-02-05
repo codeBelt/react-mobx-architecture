@@ -5,13 +5,13 @@ import { LoadingIndicator } from '../components/loading-indicator/LoadingIndicat
 import { Header, Container, Message } from 'semantic-ui-react';
 import { observer } from 'mobx-react';
 import { RouteComponentProps } from 'react-router-dom';
-import { rootStore } from '../../index';
+import { useRootStoreContext } from '../../utilities/storeUtil';
 
 interface IRouteParams {}
 interface IProps extends RouteComponentProps<IRouteParams> {}
 
 const AboutPage: React.FC<IProps> = observer((props) => {
-  const { showsStore } = rootStore;
+  const { showsStore } = useRootStoreContext();
 
   useEffect(() => {
     showsStore.requestError();

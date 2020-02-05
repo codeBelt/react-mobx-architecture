@@ -8,10 +8,10 @@ import environment from 'environment';
 import { syncHistoryWithStore } from 'mobx-react-router';
 import RootStore from './stores/RootStore';
 import { configure } from 'mobx';
+import { Provider } from 'mobx-react';
+import { createRootStore } from './utilities/storeUtil';
 
 configure({ enforceActions: 'always' }); // https://mobx.js.org/refguide/api.html#enforceactions
-
-export let rootStore: RootStore;
 
 (async (window: Window): Promise<void> => {
   const initialState: RecursivePartial<RootStore> = {
@@ -20,14 +20,19 @@ export let rootStore: RootStore;
     },
   };
 
-  rootStore = new RootStore(initialState);
+  const rootStore = createRootStore(initialState);
 
   const browserHistory = createBrowserHistory({ basename: environment.route.baseRoute });
   const history = syncHistoryWithStore(browserHistory, rootStore.routingStore);
 
   const rootEl: HTMLElement | null = document.getElementById('root');
   const render = (Component: typeof App, el: HTMLElement | null): void => {
-    ReactDOM.render(<Component history={history} />, el);
+    ReactDOM.render(
+      <Provider {...rootStore}>
+        <Component history={history} />
+      </Provider>,
+      el
+    );
   };
 
   render(App, rootEl);
